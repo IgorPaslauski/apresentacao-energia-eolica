@@ -3158,46 +3158,11 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
   }
 }
 
-.live-pill{
-  position:absolute;
-  left:50%;
-  bottom:2.5vh;
-  transform:translateX(-50%);
-  z-index:90;
-  display:flex;
-  align-items:center;
-  gap:.45rem;
-  padding:.38rem .78rem;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.16);
-  background:rgba(7,16,18,.78);
-  color:#9aaca6;
-  font-size:10px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  pointer-events:none;
-  opacity:0;
-  transition:opacity .3s ease;
-}
-.live-pill.show{opacity:1}
-.live-pill .dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#6f817a;
-}
-.live-pill.online .dot{
-  background:var(--green);
-  box-shadow:0 0 0 4px rgba(101,199,151,.18);
-}
-.live-pill.offline .dot{background:#c47b6a}
-
 </style>
 </head>
 <body>
 <div class="deck">
   <div class="progress" id="progress"></div>
-  <div class="live-pill" id="livePill"><i class="dot"></i><span id="liveText">sincronizando</span></div>
 
   <!-- 01 HERO -->
   <section class="slide dark active" data-note="Abrir com uma pergunta curta: como o vento consegue virar eletricidade? Apresentar o tema e dizer que o vídeo vai abordar funcionamento, impactos, custos, desafios e futuro.">
@@ -3731,8 +3696,6 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
   const noteText=document.getElementById('noteText');
   const buildStatus=document.getElementById('buildStatus');
   const pageWipe=document.getElementById('pageWipe');
-  const livePill=document.getElementById('livePill');
-  const liveText=document.getElementById('liveText');
 
   const params=new URLSearchParams(location.search);
   const solo=params.has('solo');
@@ -3882,14 +3845,6 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
     }
   }
 
-  function setLive(status,label){
-    if(!livePill||solo) return;
-    livePill.classList.add('show');
-    livePill.classList.toggle('online',status==='online');
-    livePill.classList.toggle('offline',status==='offline');
-    if(liveText) liveText.textContent=label;
-  }
-
   function broadcast(slide=current,builds=revealedCount()){
     pendingState={slide,builds,from:CLIENT_ID,ts:Date.now()};
     if(!mqttClient||!mqttClient.connected) return;
@@ -3989,28 +3944,22 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
 
   async function startLive(){
     if(solo) return;
-    setLive('connecting','sincronizando');
     try{
       await loadScript('https://cdn.jsdelivr.net/npm/mqtt@4.3.7/dist/mqtt.min.js');
     }catch(e){
       try{
         await loadScript('https://unpkg.com/mqtt@4.3.7/dist/mqtt.min.js');
       }catch(err){
-        setLive('offline','local');
         return;
       }
     }
-    if(typeof mqtt==='undefined'){
-      setLive('offline','local');
-      return;
-    }
+    if(typeof mqtt==='undefined') return;
 
     let brokerIndex=0;
     let connectedOnce=false;
     const bindClient=()=>{
       mqttClient.on('connect',()=>{
         connectedOnce=true;
-        setLive('online','ao vivo');
         mqttClient.subscribe(TOPIC,{qos:1});
         setTimeout(()=>{ liveReady=true; },1400);
       });
@@ -4019,19 +3968,12 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
         try{ state=JSON.parse(payload.toString()); }catch(e){ return; }
         applyRemote(state);
       });
-      mqttClient.on('reconnect',()=>setLive('connecting','reconectando'));
-      mqttClient.on('offline',()=>{
-        if(connectedOnce) setLive('offline','local');
-      });
       mqttClient.on('error',()=>{});
     };
     mqttClient=connectBroker(BROKERS[0]);
     bindClient();
     setTimeout(()=>{
-      if(connectedOnce||brokerIndex>=BROKERS.length-1){
-        if(!connectedOnce) setLive('offline','local');
-        return;
-      }
+      if(connectedOnce||brokerIndex>=BROKERS.length-1) return;
       brokerIndex=1;
       try{ mqttClient.end(true); }catch(e){}
       mqttClient=connectBroker(BROKERS[1]);
