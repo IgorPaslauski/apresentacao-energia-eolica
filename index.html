@@ -1,0 +1,3869 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Energia Eólica — Apresentação Audiovisual</title>
+<style>
+:root{
+  --bg:#071012;
+  --bg2:#0d1a1c;
+  --paper:#f4f0e7;
+  --paper2:#e9e4d8;
+  --green:#65c797;
+  --green2:#b4ead0;
+  --deep:#174f3c;
+  --blue:#86b8c5;
+  --blue2:#c6e3e8;
+  --ink:#12191a;
+  --white:#f6f8f6;
+  --muted:#8ea09a;
+  --line:rgba(255,255,255,.14);
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg)}
+body{font-family:"Segoe UI Variable Text","Aptos","Segoe UI",Arial,sans-serif}
+button{font:inherit}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+.progress{position:absolute;z-index:100;left:0;top:0;height:4px;width:14.285%;background:linear-gradient(90deg,var(--green),var(--blue));transition:.4s}
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;transform:translateX(2.5vw);transition:opacity .38s ease,transform .5s cubic-bezier(.2,.8,.2,1)}
+.slide.active{opacity:1;pointer-events:auto;transform:none}
+.slide.leave{opacity:0;transform:translateX(-2.5vw)}
+.dark{background:linear-gradient(135deg,#071012,#0b1719 72%,#081214);color:var(--white)}
+.light{background:linear-gradient(135deg,#f6f2e9,#eee9de);color:var(--ink)}
+.kicker{font-size:clamp(11px,.9vw,15px);font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:1rem}
+.dark .kicker{color:var(--green)} .light .kicker{color:var(--deep)}
+h1{margin:0;font-family:"Segoe UI Variable Display","Aptos Display","Segoe UI",Arial,sans-serif;font-size:clamp(54px,7vw,112px);font-weight:760;line-height:.89;letter-spacing:-.055em}
+h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height:1.15}
+.dark h2{color:#cbd8d4}.light h2{color:#405851}
+.lead{margin:1.55rem 0 0;font-size:clamp(17px,1.38vw,24px);line-height:1.48;max-width:830px}
+.dark .lead{color:#d6dfdb}.light .lead{color:#374240}
+.fact{margin-top:1.35rem;padding-left:.9rem;border-left:3px solid currentColor;font-size:clamp(12px,.94vw,15px);line-height:1.45;max-width:730px}
+.dark .fact{color:#8da098}.light .fact{color:#65706c}
+.source{font-size:10px;letter-spacing:.05em;text-transform:uppercase;margin-top:.65rem}
+.dark .source{color:#6f817a}.light .source{color:#848a87}
+.speaker{position:absolute;left:5.6vw;bottom:2.7vh;font-size:clamp(11px,.84vw,14px);z-index:40}
+.dark .speaker{color:#7f918a}.light .speaker{color:#737c78}
+.count{position:absolute;right:5.6vw;top:3.1vh;font-size:11px;letter-spacing:.15em;z-index:40}
+.dark .count{color:#6f817a}.light .count{color:#7c837f}
+.hint{position:absolute;left:50%;bottom:2.9vh;transform:translateX(-50%);font-size:10px;letter-spacing:.06em;color:#6f817a;z-index:80}
+.fs,.nav button{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:rgba(7,16,18,.74);color:white;display:grid;place-items:center;cursor:pointer;transition:.2s}
+.fs:hover,.nav button:hover{background:var(--deep);transform:translateY(-1px)}
+.fs{position:absolute;left:5.6vw;top:2.4vh;z-index:80}
+.nav{position:absolute;right:5.6vw;bottom:2.4vh;display:flex;gap:.55rem;z-index:80}
+.notes{position:absolute;right:5.6vw;bottom:9vh;width:min(430px,36vw);padding:1rem 1.1rem;background:#0b1516;color:#d8dfdc;border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 50px rgba(0,0,0,.35);display:none;z-index:120;font-size:13px;line-height:1.48}
+.notes.show{display:block}.notes b{display:block;color:var(--green);margin-bottom:.35rem}
+
+/* 01 — HERO CINEMÁTICO */
+.hero{position:absolute;inset:0;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(3,10,11,.92) 0%,rgba(3,10,11,.64) 42%,rgba(3,10,11,.18) 69%,rgba(3,10,11,.25) 100%),
+  radial-gradient(circle at 75% 18%,rgba(101,199,151,.12),transparent 27%);
+  z-index:2}
+.hero-copy{position:absolute;left:5.8vw;top:50%;transform:translateY(-51%);width:48%;z-index:5}
+.hero-copy h1{font-size:clamp(66px,8.6vw,140px)}
+.hero-landscape{position:absolute;inset:0}
+.hero-landscape svg{width:100%;height:100%}
+.sky-wave{fill:none;stroke:#8bbac5;stroke-width:2;opacity:.45;stroke-dasharray:1600;stroke-dashoffset:1600;animation:draw 3s ease forwards}
+.sky-wave:nth-child(2){animation-delay:.22s}.sky-wave:nth-child(3){animation-delay:.42s}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+.hero-stats{position:absolute;right:5.8vw;bottom:8vh;display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;width:34%;z-index:6}
+.hero-stat{border-top:1px solid rgba(255,255,255,.23);padding-top:.9rem}
+.hero-stat b{display:block;font-size:clamp(28px,2.9vw,50px);font-weight:760;letter-spacing:-.04em}
+.hero-stat span{display:block;color:#9aacA6;font-size:clamp(11px,.84vw,14px);margin-top:.15rem}
+.hero-stat small{display:block;color:#667872;font-size:9px;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em}
+
+/* 02 — FLUXO ILUSTRADO */
+.process-layout{position:absolute;inset:0;padding:6.5vh 5.8vw 7vh;display:grid;grid-template-columns:.88fr 1.12fr;gap:4vw;align-items:center}
+.process-visual{height:70vh;position:relative}
+.process-bg-number{position:absolute;right:0;top:-4%;font-size:clamp(160px,20vw,330px);font-weight:800;color:rgba(24,79,60,.055);letter-spacing:-.1em}
+.wind-lines{position:absolute;left:1%;top:12%;width:42%;height:34%}
+.wind-lines svg{width:100%;height:100%}.wind-lines path{fill:none;stroke:#7caeb9;stroke-width:2;stroke-dasharray:900;stroke-dashoffset:900;animation:draw 2.2s ease forwards}
+.process-turbine{position:absolute;left:34%;top:8%;width:36%;height:65%}
+.process-turbine svg{width:100%;height:100%}
+.energy-orb{position:absolute;right:3%;top:26%;width:25%;aspect-ratio:1;border:1px solid rgba(24,79,60,.25);border-radius:50%;display:grid;place-items:center}
+.energy-orb:before,.energy-orb:after{content:"";position:absolute;border:1px solid rgba(24,79,60,.14);border-radius:50%;inset:-18px;animation:ripple 2.6s ease-out infinite}
+.energy-orb:after{inset:-36px;animation-delay:.7s}
+@keyframes ripple{0%{transform:scale(.85);opacity:0}35%{opacity:1}100%{transform:scale(1.15);opacity:0}}
+.energy-orb svg{width:42%;height:42%;stroke:var(--deep);fill:none;stroke-width:1.8}
+.energy-link{position:absolute;left:61%;top:39%;width:17%;height:2px;background:linear-gradient(90deg,#9eb0aa,var(--deep))}
+.energy-link i{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--deep);top:-3px;left:0;animation:dot 2s linear infinite}
+@keyframes dot{0%{left:0;opacity:0}12%{opacity:1}88%{opacity:1}100%{left:calc(100% - 8px);opacity:0}}
+.process-bottom{position:absolute;left:0;right:0;bottom:3%;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.process-step{border-top:1px solid #b7bdb6;padding-top:.75rem}
+.process-step .n{font-size:10px;letter-spacing:.16em;color:#838986}
+.process-step b{display:block;margin-top:.25rem;font-size:clamp(16px,1.16vw,20px);color:var(--deep)}
+.process-step span{display:block;margin-top:.3rem;font-size:clamp(11px,.84vw,14px);color:#69716f;line-height:1.4}
+
+/* 03 — SPLIT / BALANÇO */
+.impact-layout{position:absolute;inset:0;padding:6.2vh 5.8vw 7vh;display:grid;grid-template-columns:.92fr 1.08fr;gap:4.2vw;align-items:center}
+.impact-side{height:70vh;position:relative}
+.balance{position:absolute;left:4%;right:4%;top:5%;height:44%}
+.balance-line{position:absolute;left:15%;right:15%;top:52%;height:2px;background:#a7afa9;transform-origin:center;animation:balance 4.6s ease-in-out infinite}
+@keyframes balance{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+.balance-pivot{position:absolute;left:50%;top:48%;transform:translateX(-50%);width:0;height:0;border-left:28px solid transparent;border-right:28px solid transparent;border-bottom:70px solid var(--deep)}
+.balance-side{position:absolute;top:2%;width:35%;text-align:center}
+.balance-side.left{left:4%}.balance-side.right{right:4%}
+.balance-side .icon-circle{width:64px;height:64px;border-radius:50%;margin:0 auto .65rem;display:grid;place-items:center;background:rgba(24,79,60,.07);border:1px solid rgba(24,79,60,.15)}
+.balance-side svg{width:30px;height:30px;stroke:var(--deep);fill:none;stroke-width:1.8}
+.balance-side b{font-size:clamp(17px,1.25vw,21px);color:var(--deep)}
+.balance-side span{display:block;margin-top:.3rem;color:#6a726f;font-size:clamp(11px,.84vw,13px);line-height:1.35}
+.region-card{position:absolute;left:0;right:0;bottom:3%;display:grid;grid-template-columns:170px 1fr;gap:1.25rem;align-items:center;border-top:1px solid #b8beb7;padding-top:1rem}
+.donut{width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--deep) 0 80%,#d8ddd5 80%);position:relative;animation:donutIn .9s ease both}
+.donut:after{content:"";position:absolute;inset:24px;border-radius:50%;background:var(--paper)}
+.donut-val{position:absolute;inset:0;display:grid;place-items:center;font-size:35px;font-weight:760;color:var(--deep);z-index:2}
+@keyframes donutIn{from{transform:rotate(-40deg) scale(.88);opacity:.3}to{transform:none;opacity:1}}
+.region-card b{font-size:clamp(20px,1.5vw,26px);color:var(--deep);display:block}
+.region-card span{display:block;margin-top:.35rem;color:#66716d;font-size:clamp(11px,.84vw,14px);line-height:1.4}
+
+/* 04 — DASHBOARD ECONÔMICO */
+.cost-layout{position:absolute;inset:0;padding:6.2vh 5.8vw 7vh;display:grid;grid-template-columns:.8fr 1.2fr;gap:4vw;align-items:center}
+.cost-panel{height:70vh;display:grid;grid-template-rows:1.25fr .75fr;gap:1rem}
+.chart-card{position:relative;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.035);padding:1.3rem 1.35rem;overflow:hidden}
+.chart-card h3{margin:0;color:#dbe4e0;font-size:clamp(14px,1vw,17px);font-weight:600}
+.chart-sub{margin-top:.25rem;color:#70847c;font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+.bars{position:absolute;left:1.35rem;right:1.35rem;bottom:1.4rem;top:5.4rem;display:flex;align-items:flex-end;justify-content:center;gap:3.6rem}
+.bar-col{width:28%;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.bar-num{font-size:clamp(25px,2.3vw,40px);font-weight:760;margin-bottom:.55rem}
+.bar{width:100%;height:0;background:linear-gradient(180deg,var(--green),#2a6b50);animation:barGrow 1s .25s forwards}
+.bar.off{background:linear-gradient(180deg,var(--blue),#366c78)}
+@keyframes barGrow{to{height:var(--h)}}
+.bar-label{margin-top:.5rem;color:#8ea099;font-size:12px}
+.cost-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.metric{border-top:1px solid rgba(255,255,255,.15);padding-top:.85rem}
+.metric svg{width:23px;height:23px;stroke:var(--green2);fill:none;stroke-width:1.8}
+.metric b{display:block;margin-top:.55rem;font-size:13px}
+.metric span{display:block;margin-top:.25rem;font-size:11px;color:#7d9088;line-height:1.35}
+
+/* 05 — REDE / PROBLEMAS */
+.challenge-layout{position:absolute;inset:0;padding:6.2vh 5.8vw 7vh;display:grid;grid-template-columns:.86fr 1.14fr;gap:4vw;align-items:center}
+.network{height:70vh;position:relative}
+.network svg{position:absolute;inset:0;width:100%;height:100%}
+.netline{stroke:#244c42;stroke-width:1.2;opacity:.7}
+.node{position:absolute;width:150px;padding:.85rem .9rem;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.035);backdrop-filter:blur(4px)}
+.node.one{left:3%;top:12%}.node.two{right:5%;top:10%}.node.three{left:18%;bottom:8%}.node.four{right:0;bottom:14%}
+.node .top{display:flex;align-items:center;gap:.6rem}
+.node .ico{width:36px;height:36px;border-radius:10px;background:rgba(101,199,151,.08);display:grid;place-items:center}
+.node svg{position:static;width:20px;height:20px;stroke:var(--green2);fill:none;stroke-width:1.8}
+.node b{font-size:13px}
+.node span{display:block;margin-top:.45rem;color:#7f928b;font-size:10.5px;line-height:1.35}
+.center-pulse{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:110px;height:110px;border-radius:50%;border:1px solid rgba(101,199,151,.25);display:grid;place-items:center;color:#dbe5e1;font-size:12px;text-align:center}
+.center-pulse:before,.center-pulse:after{content:"";position:absolute;inset:-14px;border:1px solid rgba(101,199,151,.14);border-radius:50%;animation:ripple 2.8s ease-out infinite}
+.center-pulse:after{inset:-30px;animation-delay:.7s}
+
+/* 06 — FUTURO / OFFSHORE */
+.future-layout{position:absolute;inset:0;padding:6.2vh 5.8vw 7vh;display:grid;grid-template-columns:.84fr 1.16fr;gap:4vw;align-items:center}
+.future-scene{height:70vh;position:relative;overflow:hidden}
+.future-scene .sea{position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,rgba(134,184,197,.16),rgba(134,184,197,.05));border-top:1px solid #9bbfc7}
+.future-scene .wave1,.future-scene .wave2{position:absolute;left:0;right:0;height:100px;bottom:24%;overflow:hidden}
+.future-scene svg{width:100%;height:100%}
+.future-scene .wave1 path,.future-scene .wave2 path{fill:none;stroke:#7eacb7;stroke-width:2;stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.7s ease forwards}
+.no mar-turbine{position:absolute;left:37%;bottom:15%;width:34%;height:67%}
+.future-pill{position:absolute;padding:.7rem .85rem;border:1px solid rgba(24,79,60,.14);background:rgba(255,255,255,.26);backdrop-filter:blur(4px);font-size:12px;color:#3f504b}
+.future-pill b{display:block;color:var(--deep);font-size:13px;margin-bottom:.15rem}
+.future-pill.ai{right:0;top:14%}.future-pill.h2{left:1%;bottom:7%}.future-pill.float{right:1%;bottom:9%}
+
+/* 07 — FINAL CINEMÁTICO */
+.final{position:absolute;inset:0;overflow:hidden}
+.final:before{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(5,13,14,.94),rgba(5,13,14,.72) 47%,rgba(5,13,14,.22)),
+  radial-gradient(circle at 80% 25%,rgba(101,199,151,.12),transparent 30%);z-index:2}
+.final-copy{position:absolute;left:5.8vw;top:50%;transform:translateY(-51%);width:61%;z-index:5}
+.final-copy h1{font-size:clamp(62px,8vw,128px)}
+.final-ring{position:absolute;right:7%;top:50%;transform:translateY(-50%);width:32vw;max-width:540px;aspect-ratio:1;border:1px solid rgba(255,255,255,.11);border-radius:50%;z-index:4}
+.final-ring:before,.final-ring:after{content:"";position:absolute;border:1px solid rgba(101,199,151,.14);border-radius:50%;inset:10%;animation:ring 8s linear infinite}
+.final-ring:after{inset:24%;animation-direction:reverse;animation-duration:12s}
+@keyframes ring{to{transform:rotate(360deg)}}
+.final-turbine{position:absolute;inset:20%;z-index:3}
+.final-stats{position:absolute;left:5.8vw;right:5.8vw;bottom:8vh;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;z-index:6}
+.final-stat{border-top:1px solid rgba(255,255,255,.19);padding-top:.75rem}
+.final-stat b{display:block;font-size:clamp(25px,2.4vw,42px);font-weight:760}
+.final-stat span{display:block;color:#81958e;font-size:11px;margin-top:.15rem}
+
+@media(max-width:900px){
+  .hero-copy,.final-copy{width:86%}.hero-stats,.final-stats{display:none}
+  .process-layout,.impact-layout,.cost-layout,.challenge-layout,.future-layout{grid-template-columns:1fr;padding:9vh 6vw 12vh;overflow:auto}
+  .process-visual,.impact-side,.cost-panel,.network,.future-scene{display:none}
+  .hint{display:none}.speaker{bottom:7vh}h1{font-size:58px}
+}
+
+/* === V8: refinamento de alinhamento e proporção === */
+
+/* Base: evita que elementos absolutos extrapolem os painéis */
+.hero, .process-visual, .impact-side, .cost-panel, .network, .future-scene, .final {
+  contain: layout paint;
+}
+
+/* 01 — hero */
+.hero-copy{
+  top:49%;
+  transform:translateY(-50%);
+  width:46%;
+}
+.hero-copy .lead{max-width:650px}
+.hero-stats{
+  right:5.8vw;
+  bottom:7.2vh;
+  width:35%;
+  gap:1.35rem;
+  align-items:start;
+}
+.hero-stat{
+  min-height:92px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+.hero-stat b{line-height:1}
+.hero-stat span{line-height:1.32}
+
+/* 02 — processo */
+.process-layout{
+  grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+  gap:4.5vw;
+}
+.process-visual{
+  height:min(68vh,620px);
+  min-height:500px;
+  width:100%;
+  align-self:center;
+}
+.process-bg-number{
+  right:1%;
+  top:-2%;
+}
+.wind-lines{
+  left:0;
+  top:16%;
+  width:40%;
+  height:30%;
+}
+.process-turbine{
+  left:35%;
+  top:10%;
+  width:34%;
+  height:61%;
+}
+.energy-orb{
+  right:2%;
+  top:28%;
+  width:23%;
+}
+.energy-link{
+  left:61%;
+  top:40%;
+  width:16%;
+}
+.energy-link i{
+  left:0;
+  transform:none;
+}
+.process-bottom{
+  left:1%;
+  right:1%;
+  bottom:1%;
+  gap:1.2rem;
+}
+.process-step{
+  min-height:92px;
+}
+
+/* 03 — impactos */
+.impact-layout{
+  grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:4.5vw;
+}
+.impact-side{
+  height:min(68vh,620px);
+  min-height:500px;
+}
+.balance{
+  left:2%;
+  right:2%;
+  top:6%;
+  height:41%;
+}
+.balance-line{
+  left:17%;
+  right:17%;
+  top:55%;
+}
+.balance-pivot{
+  top:55%;
+}
+.balance-side{
+  top:0;
+  width:34%;
+}
+.balance-side.left{left:3%}
+.balance-side.right{right:3%}
+.balance-side .icon-circle{
+  width:60px;
+  height:60px;
+}
+.region-card{
+  left:1%;
+  right:1%;
+  bottom:2%;
+  grid-template-columns:155px minmax(0,1fr);
+  gap:1.45rem;
+  min-height:180px;
+}
+.region-card > div:first-child{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.donut{
+  width:145px;
+  height:145px;
+}
+.donut:after{inset:23px}
+.donut-val{font-size:33px}
+
+/* 04 — custos */
+.cost-layout{
+  grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);
+  gap:4.4vw;
+}
+.cost-panel{
+  height:min(68vh,620px);
+  min-height:500px;
+  grid-template-rows:minmax(0,1.28fr) auto;
+}
+.chart-card{
+  min-height:0;
+  padding:1.3rem 1.45rem 1.1rem;
+}
+.bars{
+  left:1.45rem;
+  right:1.45rem;
+  top:5.3rem;
+  bottom:1.15rem;
+  gap:4.2rem;
+  align-items:stretch;
+}
+.bar-col{
+  width:29%;
+  height:100%;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  align-items:end;
+  justify-items:center;
+}
+.bar-num{
+  line-height:1;
+  margin:0 0 .45rem;
+}
+.bar-plot{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  overflow:hidden;
+}
+.bar{
+  width:100%;
+  max-height:100%;
+  align-self:flex-end;
+}
+.bar-label{
+  margin-top:.5rem;
+  min-height:18px;
+}
+.cost-bottom{
+  align-items:stretch;
+}
+.metric{
+  min-height:105px;
+}
+
+/* 05 — desafios */
+.challenge-layout{
+  grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+  gap:4.5vw;
+}
+.network{
+  height:min(68vh,620px);
+  min-height:500px;
+}
+.center-pulse{
+  left:50%;
+  top:50%;
+  width:116px;
+  height:116px;
+}
+.node{
+  width:172px;
+  min-height:102px;
+  padding:.85rem .9rem .8rem;
+}
+.node.one{left:2%;top:10%}
+.node.two{right:2%;top:10%}
+.node.three{left:8%;bottom:8%}
+.node.four{right:0;bottom:8%}
+.network > svg{
+  inset:6% 3% 5%;
+  width:94%;
+  height:89%;
+}
+.node .top{
+  align-items:center;
+}
+.node .ico{
+  flex:0 0 36px;
+}
+
+/* 06 — futuro */
+.future-layout{
+  grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);
+  gap:4.6vw;
+}
+.future-scene{
+  height:min(68vh,620px);
+  min-height:500px;
+}
+.future-scene .sea{
+  height:31%;
+}
+.future-scene .wave1{
+  bottom:24%;
+}
+.future-scene .wave2{
+  bottom:17%;
+}
+.no mar-turbine{
+  left:34%;
+  bottom:13%;
+  width:34%;
+  height:66%;
+}
+.future-pill{
+  max-width:175px;
+  line-height:1.25;
+}
+.future-pill.ai{
+  right:1%;
+  top:11%;
+}
+.future-pill.h2{
+  left:1%;
+  bottom:8%;
+}
+.future-pill.float{
+  right:1%;
+  bottom:10%;
+}
+
+/* 07 — fechamento */
+.final-copy{
+  left:5.8vw;
+  top:47%;
+  width:53%;
+}
+.final-copy .lead{
+  max-width:780px;
+}
+.final-ring{
+  right:6%;
+  top:47%;
+  width:min(30vw,500px);
+}
+.final-turbine{
+  inset:18% 20% 13%;
+}
+.final-stats{
+  left:5.8vw;
+  right:5.8vw;
+  bottom:6.5vh;
+  gap:2.4rem;
+}
+.final-stat{
+  min-height:75px;
+}
+.final-stat b{
+  line-height:1;
+}
+
+/* mantém os textos inferiores longe dos controles */
+.speaker{
+  bottom:2.9vh;
+  padding-right:160px;
+}
+
+
+/* V9 — correção das turbinas: pás alinhadas e rotação só do rotor */
+.process-turbine svg, .no mar-turbine svg, .final-turbine svg { overflow: visible; }
+.hero-landscape svg { overflow: hidden; }
+.process-turbine { left: 36%; top: 9%; width: 33%; height: 64%; }
+.no mar-turbine { left: 35%; bottom: 14%; width: 32%; height: 65%; }
+.final-turbine { inset: 19% 20% 14%; }
+
+
+/* V10 — slide 3 remodelado para ficar mais distinto do slide 2 */
+.impact-layout{
+  padding:6vh 5.8vw 7vh;
+  grid-template-columns:minmax(0,.84fr) minmax(0,1.16fr);
+  gap:4.8vw;
+}
+.impact-side{
+  height:min(69vh,630px);
+  min-height:520px;
+  position:relative;
+  overflow:hidden;
+}
+.impact-mark{
+  position:absolute;
+  right:-1%;
+  top:-5%;
+  font-size:clamp(140px,18vw,300px);
+  font-weight:780;
+  letter-spacing:-.09em;
+  color:rgba(24,79,60,.055);
+  pointer-events:none;
+}
+.scale-wrap{
+  position:absolute;
+  left:2%;
+  right:2%;
+  top:5%;
+  height:52%;
+}
+.scale-top{
+  position:absolute;
+  left:50%;
+  top:2%;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#7a817e;
+}
+.scale-top svg{
+  width:18px;height:18px;stroke:#174f3c;fill:none;stroke-width:1.8
+}
+.balance-stage{
+  position:absolute;
+  inset:14% 2% 0;
+}
+.balance-arm{
+  position:absolute;
+  left:50%;
+  top:18%;
+  width:57%;
+  height:4px;
+  transform:translateX(-50%);
+  background:#9fa7a2;
+  transform-origin:center center;
+  animation:balance 5s ease-in-out infinite;
+}
+.balance-arm:before,.balance-arm:after{
+  content:"";
+  position:absolute;
+  top:4px;
+  width:2px;
+  height:42px;
+  background:#aeb5b0;
+}
+.balance-arm:before{left:14%}
+.balance-arm:after{right:14%}
+.balance-arm .pivot-line{
+  position:absolute;
+  left:50%;
+  top:-58px;
+  width:2px;
+  height:58px;
+  background:#aeb5b0;
+  transform:translateX(-50%);
+}
+.balance-base{
+  position:absolute;
+  left:50%;
+  top:22%;
+  transform:translateX(-50%);
+  width:0;height:0;
+  border-left:36px solid transparent;
+  border-right:36px solid transparent;
+  border-bottom:90px solid #174f3c;
+}
+.balance-card{
+  position:absolute;
+  width:38%;
+  min-height:180px;
+  padding:1rem 1rem .95rem;
+  background:rgba(255,255,255,.46);
+  border:1px solid rgba(24,79,60,.10);
+  backdrop-filter:blur(5px);
+  box-shadow:0 14px 28px rgba(47,55,52,.06);
+}
+.balance-card.left{left:1%;top:18%}
+.balance-card.right{right:1%;top:13%}
+.balance-card .head{
+  display:flex;
+  align-items:center;
+  gap:.7rem;
+}
+.balance-card .head .icon-circle{
+  width:46px;height:46px;border-radius:50%;
+  display:grid;place-items:center;
+  background:rgba(24,79,60,.08);
+  border:1px solid rgba(24,79,60,.10)
+}
+.balance-card .head svg{
+  width:22px;height:22px;stroke:#174f3c;fill:none;stroke-width:1.8
+}
+.balance-card b{
+  display:block;
+  font-size:clamp(16px,1.18vw,21px);
+  color:#174f3c;
+}
+.balance-card p{
+  margin:.9rem 0 0;
+  color:#66706d;
+  font-size:clamp(11px,.86vw,14px);
+  line-height:1.42;
+}
+.balance-mini{
+  margin-top:.9rem;
+  padding-top:.75rem;
+  border-top:1px solid rgba(24,79,60,.10);
+  font-size:13px;
+  line-height:1.45;
+  color:#72807b;
+}
+.region-strip{
+  position:absolute;
+  left:2%;
+  right:2%;
+  bottom:2%;
+  display:grid;
+  grid-template-columns:160px minmax(0,1fr);
+  gap:1.3rem;
+  align-items:center;
+  padding-top:1rem;
+  border-top:1px solid #b8beb7;
+}
+.region-box{
+  position:relative;
+  width:145px;
+  height:145px;
+  margin-inline:auto;
+}
+.donut{
+  width:145px;height:145px;border-radius:50%;
+  background:conic-gradient(var(--deep) 0 80%, #d8ddd5 80%);
+  position:relative;
+  animation:donutIn .9s ease both;
+}
+.donut:after{content:"";position:absolute;inset:22px;border-radius:50%;background:var(--paper)}
+.donut-val{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-size:34px;font-weight:760;color:var(--deep);z-index:2;
+}
+.region-copy b{
+  display:block;
+  font-size:clamp(20px,1.48vw,26px);
+  color:#174f3c;
+}
+.region-copy span{
+  display:block;
+  margin-top:.35rem;
+  color:#66706d;
+  font-size:clamp(11px,.85vw,14px);
+  line-height:1.42;
+}
+.region-copy .source{margin-top:.55rem}
+
+
+/* V11 — slide 3 repensado */
+.impact-v2{
+  position:absolute;
+  inset:0;
+  padding:6.2vh 5.8vw 7vh;
+  display:grid;
+  grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+  gap:4.8vw;
+  align-items:center;
+}
+.impact-v2-visual{
+  position:relative;
+  height:min(69vh,630px);
+  min-height:520px;
+  overflow:hidden;
+}
+.impact-v2-mark{
+  position:absolute;
+  right:-1%;
+  top:-6%;
+  font-size:clamp(150px,19vw,310px);
+  font-weight:780;
+  letter-spacing:-.09em;
+  color:rgba(24,79,60,.045);
+  pointer-events:none;
+}
+.impact-v2-top{
+  position:absolute;
+  left:0;
+  right:0;
+  top:3%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.65rem;
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#7b8380;
+}
+.impact-v2-top svg{
+  width:18px;height:18px;stroke:#174f3c;fill:none;stroke-width:1.8;
+}
+.balance-glyph{
+  position:absolute;
+  left:50%;
+  top:11%;
+  transform:translateX(-50%);
+  width:120px;
+  height:70px;
+  opacity:.68;
+}
+.balance-glyph svg{width:100%;height:100%}
+.balance-glyph path,.balance-glyph line,.balance-glyph circle{
+  stroke:#8f9c96;
+  fill:none;
+  stroke-width:1.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.compare-grid{
+  position:absolute;
+  left:0;
+  right:0;
+  top:22%;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.15rem;
+  align-items:stretch;
+}
+.compare-card{
+  min-height:220px;
+  padding:1.05rem 1.05rem .95rem;
+  background:rgba(255,255,255,.44);
+  border:1px solid rgba(24,79,60,.11);
+  box-shadow:0 16px 30px rgba(39,48,46,.05);
+  backdrop-filter:blur(4px);
+}
+.compare-card .head{
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+}
+.compare-card .icon{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:rgba(24,79,60,.07);
+  border:1px solid rgba(24,79,60,.12);
+  color:#174f3c;
+}
+.compare-card .icon svg{
+  width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;
+}
+.compare-card b{
+  display:block;
+  font-size:clamp(18px,1.3vw,23px);
+  color:#174f3c;
+}
+.compare-card ul{
+  margin:.95rem 0 0;
+  padding:0;
+  list-style:none;
+}
+.compare-card li{
+  position:relative;
+  padding-left:.95rem;
+  margin:.55rem 0;
+  color:#66706d;
+  font-size:clamp(11px,.86vw,14px);
+  line-height:1.42;
+}
+.compare-card li:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.55em;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#174f3c;
+  opacity:.7;
+}
+.compare-card .tagline{
+  margin-top:.9rem;
+  padding-top:.72rem;
+  border-top:1px solid rgba(24,79,60,.10);
+  font-size:11px;
+  color:#73807b;
+  line-height:1.35;
+}
+.compare-divider{
+  position:absolute;
+  left:50%;
+  top:23%;
+  bottom:30%;
+  width:1px;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,transparent,#c5cac3 14%,#c5cac3 86%,transparent);
+}
+.region-band{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:2%;
+  display:grid;
+  grid-template-columns:145px minmax(0,1fr);
+  gap:1.25rem;
+  align-items:center;
+  padding:1rem 0 0;
+  border-top:1px solid #bbc1ba;
+}
+.region-band .region-donut-wrap{
+  width:135px;
+  height:135px;
+  position:relative;
+  margin-inline:auto;
+}
+.region-band .region-donut{
+  width:135px;
+  height:135px;
+  border-radius:50%;
+  background:conic-gradient(#174f3c 0 80%, #d9ddd5 80%);
+  position:relative;
+}
+.region-band .region-donut:after{
+  content:"";
+  position:absolute;
+  inset:21px;
+  border-radius:50%;
+  background:var(--paper);
+}
+.region-band .region-val{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  font-size:32px;
+  font-weight:760;
+  color:#174f3c;
+  z-index:2;
+}
+.region-band .region-copy b{
+  display:block;
+  font-size:clamp(21px,1.5vw,27px);
+  color:#174f3c;
+}
+.region-band .region-copy span{
+  display:block;
+  margin-top:.35rem;
+  color:#66706d;
+  font-size:clamp(11px,.85vw,14px);
+  line-height:1.42;
+}
+.region-band .region-copy .source{
+  margin-top:.55rem;
+}
+
+@media(max-width:900px){
+  .impact-v2{
+    grid-template-columns:1fr;
+    padding:9vh 6vw 12vh;
+    overflow:auto;
+  }
+  .impact-v2-visual{
+    display:none;
+  }
+}
+
+
+/* V12 — slide 5 ampliado e com mais presença visual */
+.challenge-layout{
+  padding:5.6vh 4.8vw 6.5vh;
+  grid-template-columns:minmax(0,.68fr) minmax(0,1.32fr);
+  gap:3.6vw;
+}
+.challenge-layout > div:first-child{
+  align-self:center;
+  padding-left:.6vw;
+}
+.challenge-layout > div:first-child h1{
+  font-size:clamp(58px,7.1vw,116px);
+}
+.challenge-layout > div:first-child .lead{
+  max-width:620px;
+}
+
+.network{
+  height:min(76vh,700px);
+  min-height:560px;
+  width:100%;
+  position:relative;
+  overflow:visible;
+}
+.network > svg{
+  position:absolute;
+  inset:1% 0 1%;
+  width:100%;
+  height:98%;
+}
+.netline{
+  stroke:#2e6656;
+  stroke-width:1.6;
+  opacity:.75;
+}
+.center-pulse{
+  width:150px;
+  height:150px;
+  font-size:14px;
+  line-height:1.25;
+  font-weight:600;
+  letter-spacing:.02em;
+  border:1px solid rgba(101,199,151,.34);
+  background:radial-gradient(circle,rgba(101,199,151,.07),rgba(101,199,151,.02));
+  box-shadow:0 0 45px rgba(101,199,151,.08);
+}
+.center-pulse:before{inset:-20px}
+.center-pulse:after{inset:-42px}
+
+.node{
+  width:205px;
+  min-height:122px;
+  padding:1rem 1.05rem .95rem;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.045);
+  box-shadow:0 16px 36px rgba(0,0,0,.12);
+}
+.node .top{
+  gap:.75rem;
+}
+.node .ico{
+  width:44px;
+  height:44px;
+  flex:0 0 44px;
+  border-radius:12px;
+  background:rgba(101,199,151,.10);
+}
+.node svg{
+  width:24px;
+  height:24px;
+}
+.node b{
+  font-size:15px;
+  line-height:1.15;
+}
+.node span{
+  margin-top:.6rem;
+  font-size:12px;
+  line-height:1.42;
+}
+
+.node.one{left:0;top:5%}
+.node.two{right:0;top:5%}
+.node.three{left:6%;bottom:3%}
+.node.four{right:0;bottom:3%}
+
+/* pequenos rótulos nas conexões */
+.net-label{
+  position:absolute;
+  padding:.35rem .5rem;
+  border-radius:999px;
+  background:#0b1718;
+  border:1px solid rgba(255,255,255,.08);
+  color:#7f918a;
+  font-size:9px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  z-index:2;
+}
+.net-label.a{left:29%;top:26%}
+.net-label.b{right:27%;top:26%}
+.net-label.c{left:31%;bottom:24%}
+.net-label.d{right:25%;bottom:24%}
+
+/* dá um pouco mais de respiro para o rodapé */
+.challenge-layout + .speaker{
+  bottom:2.5vh;
+}
+
+
+/* V13 — slide 4 repensado como narrativa econômica */
+.econ-layout{
+  position:absolute;
+  inset:0;
+  padding:5.8vh 5.6vw 6.8vh;
+  display:grid;
+  grid-template-columns:minmax(0,.84fr) minmax(0,1.16fr);
+  gap:4.4vw;
+  align-items:center;
+}
+.econ-copy{
+  align-self:center;
+}
+.econ-copy h1{
+  font-size:clamp(58px,7.4vw,118px);
+}
+.econ-highlight{
+  margin-top:1.55rem;
+  display:flex;
+  align-items:flex-end;
+  gap:.75rem;
+  color:#f3f7f4;
+}
+.econ-highlight strong{
+  font-size:clamp(44px,5vw,78px);
+  line-height:.85;
+  letter-spacing:-.055em;
+  color:var(--green);
+}
+.econ-highlight span{
+  max-width:190px;
+  font-size:clamp(12px,.9vw,15px);
+  line-height:1.35;
+  color:#8ea29a;
+  padding-bottom:.25rem;
+}
+.econ-visual{
+  height:min(72vh,660px);
+  min-height:540px;
+  position:relative;
+}
+.econ-title{
+  position:absolute;
+  left:0;
+  top:1%;
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#82968e;
+}
+.econ-bars{
+  position:absolute;
+  left:0;
+  right:0;
+  top:11%;
+  height:43%;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.3rem;
+}
+.econ-bar-card{
+  position:relative;
+  border-top:1px solid rgba(255,255,255,.18);
+  padding-top:.85rem;
+  overflow:hidden;
+}
+.econ-bar-card .kind{
+  font-size:12px;
+  color:#8ea099;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.econ-bar-card .value{
+  margin-top:.35rem;
+  font-size:clamp(42px,4.3vw,70px);
+  line-height:.92;
+  font-weight:760;
+  letter-spacing:-.05em;
+}
+.econ-bar-card .unit{
+  margin-top:.15rem;
+  color:#72857d;
+  font-size:11px;
+}
+.econ-column{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:58%;
+  background:linear-gradient(180deg,var(--green),#286249);
+  transform-origin:bottom;
+  transform:scaleY(0);
+  animation:econGrow 1s .25s ease forwards;
+}
+.econ-column.off{
+  background:linear-gradient(180deg,var(--blue),#3d6e79);
+}
+@keyframes econGrow{to{transform:scaleY(var(--scale))}}
+.econ-column:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:1px;
+  background:rgba(255,255,255,.55);
+}
+.econ-flow{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:1%;
+  display:grid;
+  grid-template-columns:1fr 48px 1fr 48px 1fr;
+  align-items:center;
+}
+.econ-step{
+  min-height:152px;
+  padding:.9rem .9rem .8rem;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.035);
+}
+.econ-step .ico{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:rgba(101,199,151,.08);
+  border:1px solid rgba(101,199,151,.12);
+}
+.econ-step svg{
+  width:22px;height:22px;
+  stroke:var(--green2);fill:none;stroke-width:1.8;
+}
+.econ-step b{
+  display:block;
+  margin-top:.65rem;
+  font-size:14px;
+}
+.econ-step span{
+  display:block;
+  margin-top:.3rem;
+  color:#7f918a;
+  font-size:11px;
+  line-height:1.38;
+}
+.econ-arrow{
+  position:relative;
+  height:1px;
+  background:#51635d;
+}
+.econ-arrow:after{
+  content:"";
+  position:absolute;
+  right:0;
+  top:-4px;
+  border-left:7px solid #51635d;
+  border-top:4px solid transparent;
+  border-bottom:4px solid transparent;
+}
+.econ-arrow i{
+  position:absolute;
+  left:0;
+  top:-3px;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--green);
+  animation:econDot 1.9s linear infinite;
+}
+@keyframes econDot{
+  from{left:0;opacity:0}
+  15%{opacity:1}
+  85%{opacity:1}
+  to{left:calc(100% - 7px);opacity:0}
+}
+.econ-source{
+  position:absolute;
+  right:0;
+  top:55%;
+  font-size:9px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:#64776f;
+}
+@media(max-width:900px){
+  .econ-layout{
+    grid-template-columns:1fr;
+    padding:9vh 6vw 12vh;
+    overflow:auto;
+  }
+  .econ-visual{display:none}
+}
+
+
+/* V14 — slide 4 redesenhado: custo ao longo do ciclo */
+.coststory{
+  position:absolute;
+  inset:0;
+  padding:5.8vh 5.6vw 6.8vh;
+  display:grid;
+  grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+  gap:4.6vw;
+  align-items:center;
+}
+.coststory-copy h1{
+  font-size:clamp(58px,7.2vw,116px);
+}
+.coststory-copy .lead{
+  max-width:650px;
+}
+.coststory-visual{
+  position:relative;
+  height:min(72vh,660px);
+  min-height:540px;
+}
+
+/* turbina como eixo visual */
+.cost-turbine{
+  position:absolute;
+  left:4%;
+  top:7%;
+  width:46%;
+  height:70%;
+}
+.cost-turbine svg{width:100%;height:100%;overflow:visible}
+.cost-turbine .tower{stroke:#dfe8e4;stroke-width:8;stroke-linecap:round}
+.cost-turbine .blade{fill:#eef4f1}
+.cost-turbine .hub{fill:#65c797}
+.cost-turbine .rot{
+  transform-origin:150px 116px;
+  animation:costSpin 7s linear infinite;
+}
+@keyframes costSpin{to{transform:rotate(360deg)}}
+
+/* chamadas */
+.callout{
+  position:absolute;
+  width:250px;
+  padding:.72rem .8rem .78rem;
+  border-top:1px solid rgba(255,255,255,.18);
+  color:#dce5e1;
+}
+.callout:before{
+  content:"";
+  position:absolute;
+  top:0;
+  width:44px;
+  height:1px;
+  background:#65c797;
+}
+.callout.left:before{left:0}
+.callout.right:before{right:0}
+.callout .label{
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#778a83;
+}
+.callout b{
+  display:block;
+  margin-top:.25rem;
+  font-size:clamp(20px,1.5vw,26px);
+  line-height:1.15;
+}
+.callout span{
+  display:block;
+  margin-top:.3rem;
+  font-size:13px;
+  line-height:1.45;
+  color:#82948d;
+}
+.callout.install{right:3%;top:10%}
+.callout.fuel{right:0;top:31%}
+.callout.operation{right:4%;top:51%}
+.callout.fuel b{color:var(--green)}
+
+/* conectores */
+.connector{
+  position:absolute;
+  height:1px;
+  background:linear-gradient(90deg,rgba(101,199,151,.55),rgba(101,199,151,.12));
+  transform-origin:left center;
+}
+.connector.c1{left:44%;top:22%;width:28%;transform:rotate(-8deg)}
+.connector.c2{left:46%;top:39%;width:25%;transform:rotate(1deg)}
+.connector.c3{left:43%;top:57%;width:29%;transform:rotate(8deg)}
+.connector:after{
+  content:"";
+  position:absolute;
+  left:0;
+  top:-3px;
+  width:7px;height:7px;border-radius:50%;
+  background:#65c797;
+}
+
+/* comparação LCOE em faixa inferior */
+.lcoe-panel{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:1%;
+  height:27%;
+  border-top:1px solid rgba(255,255,255,.16);
+  padding-top:.85rem;
+}
+.lcoe-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:1rem;
+}
+.lcoe-title b{
+  font-size:15px;
+  color:#dfe7e4;
+}
+.lcoe-title span{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  color:#61746c;
+}
+.lcoe-rows{
+  margin-top:.85rem;
+  display:grid;
+  gap:.72rem;
+}
+.lcoe-row{
+  display:grid;
+  grid-template-columns:72px 1fr 88px;
+  align-items:center;
+  gap:.75rem;
+}
+.lcoe-row .kind{
+  font-size:13px;
+  color:#879990;
+}
+.lcoe-track{
+  height:12px;
+  background:rgba(255,255,255,.07);
+  overflow:hidden;
+}
+.lcoe-fill{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#65c797,#98ddb9);
+  animation:lcoeGrow 1s .25s ease forwards;
+}
+.lcoe-fill.off{
+  background:linear-gradient(90deg,#86b8c5,#5b8892);
+}
+@keyframes lcoeGrow{to{width:var(--w)}}
+.lcoe-value{
+  text-align:right;
+  font-size:20px;
+  font-weight:700;
+  color:#e7efeb;
+}
+.lcoe-value small{
+  display:block;
+  font-size:10px;
+  font-weight:400;
+  color:#61746c;
+  margin-top:1px;
+}
+.coststory-note{
+  margin-top:1.15rem;
+  padding-left:.9rem;
+  border-left:3px solid #65c797;
+  max-width:610px;
+  font-size:14px;
+  line-height:1.5;
+  color:#8ba099;
+}
+@media(max-width:900px){
+  .coststory{
+    grid-template-columns:1fr;
+    padding:9vh 6vw 12vh;
+    overflow:auto;
+  }
+  .coststory-visual{display:none}
+}
+
+
+/* V15 — slide 4: tipografia maior e termos em português */
+.callout{
+  padding:.82rem .9rem .9rem;
+}
+.callout.install{right:2%;top:9%}
+.callout.fuel{right:0;top:31%}
+.callout.operation{right:2%;top:54%}
+.lcoe-panel{
+  height:29%;
+}
+.lcoe-rows{
+  margin-top:1rem;
+  gap:.82rem;
+}
+.lcoe-row{
+  grid-template-columns:82px 1fr 100px;
+}
+.coststory-note{
+  max-width:640px;
+}
+
+
+/* V16 — slide 4: valores em reais e tipografia reorganizada */
+.coststory{
+  grid-template-columns:minmax(0,.76fr) minmax(0,1.24fr);
+  gap:4.2vw;
+}
+.coststory-copy h1{
+  font-size:clamp(58px,7vw,112px);
+}
+.coststory-copy .lead{
+  max-width:600px;
+  font-size:clamp(18px,1.42vw,25px);
+}
+.coststory-note{
+  max-width:590px;
+  font-size:14px;
+  line-height:1.48;
+}
+
+.coststory-visual{
+  height:min(73vh,670px);
+  min-height:550px;
+}
+
+/* turbina um pouco mais à esquerda para liberar espaço aos textos */
+.cost-turbine{
+  left:1%;
+  top:8%;
+  width:43%;
+  height:68%;
+}
+
+/* callouts maiores e mais limpos */
+.callout{
+  width:280px;
+  padding:.85rem .95rem .9rem;
+}
+.callout .label{
+  font-size:11px;
+  letter-spacing:.11em;
+}
+.callout b{
+  font-size:clamp(21px,1.55vw,27px);
+  line-height:1.08;
+}
+.callout span{
+  margin-top:.38rem;
+  font-size:13px;
+  line-height:1.38;
+}
+.callout.install{right:0;top:8%}
+.callout.fuel{right:0;top:30%}
+.callout.operation{right:0;top:52%}
+
+/* conectores ajustados à nova posição */
+.connector.c1{left:40%;top:21%;width:27%;transform:rotate(-7deg)}
+.connector.c2{left:42%;top:39%;width:25%;transform:rotate(0deg)}
+.connector.c3{left:40%;top:57%;width:27%;transform:rotate(7deg)}
+
+/* gráfico inferior com fonte maior e espaço consistente */
+.lcoe-panel{
+  height:30%;
+  bottom:0;
+  padding-top:.9rem;
+}
+.lcoe-title b{
+  font-size:15px;
+  line-height:1.25;
+}
+.lcoe-title span{
+  font-size:10px;
+  max-width:260px;
+  text-align:right;
+  line-height:1.3;
+}
+.lcoe-rows{
+  margin-top:.9rem;
+  gap:.78rem;
+}
+.lcoe-row{
+  grid-template-columns:86px 1fr 120px;
+  gap:.85rem;
+}
+.lcoe-row .kind{
+  font-size:13px;
+}
+.lcoe-value{
+  font-size:20px;
+  white-space:nowrap;
+}
+.lcoe-value small{
+  font-size:10px;
+}
+
+@media(max-width:1250px){
+  .callout{
+    width:245px;
+  }
+  .callout b{
+    font-size:20px;
+  }
+  .callout span{
+    font-size:12px;
+  }
+  .lcoe-title span{
+    max-width:210px;
+  }
+}
+
+
+/* V17 — mostra BRL + USD juntos no slide 4 */
+.lcoe-value{
+  line-height:1.05;
+}
+.lcoe-value small{
+  display:block;
+  margin-top:3px;
+  font-size:11px;
+  color:#8fa19b;
+  white-space:nowrap;
+}
+
+
+/* V18 — slide 6 redesenhado */
+.future-v2{
+  position:absolute;
+  inset:0;
+  padding:5.9vh 5.6vw 6.8vh;
+  display:grid;
+  grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);
+  gap:4.6vw;
+  align-items:center;
+}
+.future-v2-copy h1{
+  font-size:clamp(58px,7.2vw,116px);
+}
+.future-v2-copy .lead{
+  max-width:620px;
+}
+.future-v2-copy .fact{
+  max-width:590px;
+}
+
+.future-v2-visual{
+  position:relative;
+  height:min(72vh,660px);
+  min-height:540px;
+  overflow:hidden;
+}
+.future-v2-mark{
+  position:absolute;
+  right:-1%;
+  top:-6%;
+  font-size:clamp(150px,18vw,300px);
+  font-weight:780;
+  letter-spacing:-.09em;
+  color:rgba(24,79,60,.05);
+  pointer-events:none;
+}
+.future-v2-top{
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:1rem;
+  padding-bottom:.7rem;
+  border-bottom:1px solid #bcc2ba;
+}
+.future-v2-top b{
+  font-size:14px;
+  color:#174f3c;
+}
+.future-v2-top span{
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#7a827f;
+}
+
+.future-v2-grid{
+  position:absolute;
+  left:0;
+  right:0;
+  top:12%;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+}
+.future-v2-card{
+  min-height:152px;
+  padding:1rem 1rem .95rem;
+  background:rgba(255,255,255,.40);
+  border:1px solid rgba(24,79,60,.10);
+  box-shadow:0 12px 24px rgba(39,48,46,.05);
+  backdrop-filter:blur(4px);
+}
+.future-v2-card .head{
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+}
+.future-v2-card .ico{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:rgba(24,79,60,.07);
+  border:1px solid rgba(24,79,60,.11);
+}
+.future-v2-card .ico svg{
+  width:22px;
+  height:22px;
+  stroke:#174f3c;
+  fill:none;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.future-v2-card b{
+  display:block;
+  font-size:clamp(18px,1.35vw,23px);
+  color:#174f3c;
+}
+.future-v2-card p{
+  margin:.8rem 0 0;
+  color:#66706d;
+  font-size:clamp(11px,.86vw,14px);
+  line-height:1.42;
+}
+
+.future-v2-scene{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:34%;
+  border-top:1px solid #bcc2ba;
+}
+.future-v2-scene .label{
+  position:absolute;
+  left:0;
+  top:.65rem;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#7a827f;
+}
+.future-v2-sea{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:62%;
+  background:linear-gradient(180deg,rgba(130,183,197,.12),rgba(130,183,197,.04));
+}
+.future-v2-wave1,.future-v2-wave2{
+  position:absolute;
+  left:0;
+  right:0;
+  height:72px;
+  overflow:hidden;
+}
+.future-v2-wave1{bottom:20%}
+.future-v2-wave2{bottom:6%}
+.future-v2-wave1 svg,.future-v2-wave2 svg{
+  width:100%;
+  height:100%;
+}
+.future-v2-wave1 path,.future-v2-wave2 path{
+  fill:none;
+  stroke:#7eaeb9;
+  stroke-width:2;
+  stroke-dasharray:900;
+  stroke-dashoffset:900;
+  animation:draw 2.4s ease forwards;
+}
+.future-v2-wave2 path{animation-delay:.2s}
+
+.future-v2-turbine{
+  position:absolute;
+  right:10%;
+  bottom:12%;
+  width:26%;
+  height:88%;
+}
+.future-v2-turbine svg{
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+.future-v2-turbine .tower{
+  stroke:#174f3c;
+  stroke-width:7;
+  stroke-linecap:round;
+}
+.future-v2-turbine .blade{
+  fill:#174f3c;
+}
+.future-v2-turbine .hub{
+  fill:#65c797;
+}
+.future-v2-turbine .rot{
+  transform-origin:110px 92px;
+  animation:futureSpin 7.5s linear infinite;
+}
+@keyframes futureSpin{to{transform:rotate(360deg)}}
+
+.future-v2-note{
+  position:absolute;
+  left:0;
+  bottom:14%;
+  max-width:320px;
+  color:#66706d;
+  font-size:12px;
+  line-height:1.42;
+}
+.future-v2-note b{
+  color:#174f3c;
+}
+
+@media(max-width:900px){
+  .future-v2{
+    grid-template-columns:1fr;
+    padding:9vh 6vw 12vh;
+    overflow:auto;
+  }
+  .future-v2-visual{
+    display:none;
+  }
+}
+
+
+/* V19 — slide 6 redesenhado novamente */
+.future-v3{
+  position:absolute;
+  inset:0;
+  padding:5.8vh 5.6vw 6.8vh;
+  display:grid;
+  grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);
+  gap:4.6vw;
+  align-items:center;
+}
+.future-v3-copy h1{
+  font-size:clamp(58px,7.1vw,114px);
+}
+.future-v3-copy .lead{max-width:620px}
+.future-v3-copy .fact{max-width:590px}
+
+.future-v3-panel{
+  position:relative;
+  height:min(72vh,660px);
+  min-height:540px;
+}
+.future-v3-mark{
+  position:absolute;
+  right:-1%;
+  top:-6%;
+  font-size:clamp(150px,18vw,300px);
+  font-weight:780;
+  letter-spacing:-.09em;
+  color:rgba(24,79,60,.05);
+  pointer-events:none;
+}
+.future-v3-head{
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:1rem;
+  padding-bottom:.75rem;
+  border-bottom:1px solid #bcc2ba;
+}
+.future-v3-head b{
+  font-size:14px;
+  color:#174f3c;
+}
+.future-v3-head span{
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#7a827f;
+}
+
+.future-v3-hero{
+  position:absolute;
+  left:0;
+  right:0;
+  top:11%;
+  min-height:225px;
+  padding:1.05rem 1.1rem 1rem;
+  background:rgba(255,255,255,.42);
+  border:1px solid rgba(24,79,60,.10);
+  box-shadow:0 12px 24px rgba(39,48,46,.05);
+  overflow:hidden;
+}
+.future-v3-hero:after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:34%;
+  background:linear-gradient(180deg,rgba(130,183,197,.10),rgba(130,183,197,.04));
+  border-top:1px solid rgba(24,79,60,.08);
+}
+.future-v3-hero .top{
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:54px minmax(0,1fr);
+  gap:.85rem;
+  align-items:start;
+}
+.future-v3-hero .ico{
+  width:48px;
+  height:48px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:rgba(24,79,60,.07);
+  border:1px solid rgba(24,79,60,.11);
+}
+.future-v3-hero .ico svg{
+  width:24px;
+  height:24px;
+  stroke:#174f3c;
+  fill:none;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.future-v3-hero b{
+  display:block;
+  color:#174f3c;
+  font-size:clamp(24px,1.9vw,34px);
+  line-height:1.06;
+}
+.future-v3-hero p{
+  margin:.55rem 0 0;
+  max-width:480px;
+  color:#66706d;
+  font-size:clamp(12px,.9vw,15px);
+  line-height:1.42;
+}
+
+.future-v3-offshore-note{
+  position:relative;
+  z-index:2;
+  margin-top:1rem;
+  padding-left:.85rem;
+  border-left:3px solid #174f3c;
+  max-width:470px;
+  color:#6d7673;
+  font-size:12px;
+  line-height:1.42;
+}
+
+.future-v3-wave1,.future-v3-wave2{
+  position:absolute;
+  left:2.5%;
+  right:28%;
+  height:58px;
+  overflow:hidden;
+}
+.future-v3-wave1{bottom:11%}
+.future-v3-wave2{bottom:4%}
+.future-v3-wave1 svg,.future-v3-wave2 svg{
+  width:100%;
+  height:100%;
+}
+.future-v3-wave1 path,.future-v3-wave2 path{
+  fill:none;
+  stroke:#7eaeb9;
+  stroke-width:2;
+  stroke-dasharray:900;
+  stroke-dashoffset:900;
+  animation:draw 2.4s ease forwards;
+}
+.future-v3-wave2 path{animation-delay:.18s}
+
+.future-v3-turbine{
+  position:absolute;
+  right:5%;
+  bottom:8%;
+  width:24%;
+  height:56%;
+  z-index:2;
+}
+.future-v3-turbine svg{
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+.future-v3-turbine .tower{
+  stroke:#174f3c;
+  stroke-width:7;
+  stroke-linecap:round;
+}
+.future-v3-turbine .blade{
+  fill:#174f3c;
+}
+.future-v3-turbine .hub{
+  fill:#65c797;
+}
+.future-v3-turbine .rot{
+  transform-origin:95px 88px;
+  animation:futureSpin2 7.5s linear infinite;
+}
+@keyframes futureSpin2{to{transform:rotate(360deg)}}
+
+.future-v3-grid{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1rem;
+}
+.future-v3-card{
+  min-height:170px;
+  padding:.95rem .95rem .9rem;
+  background:rgba(255,255,255,.38);
+  border:1px solid rgba(24,79,60,.10);
+  box-shadow:0 10px 22px rgba(39,48,46,.04);
+}
+.future-v3-card .head{
+  display:flex;
+  align-items:center;
+  gap:.72rem;
+}
+.future-v3-card .ico{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:rgba(24,79,60,.07);
+  border:1px solid rgba(24,79,60,.10);
+}
+.future-v3-card .ico svg{
+  width:21px;
+  height:21px;
+  stroke:#174f3c;
+  fill:none;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.future-v3-card b{
+  display:block;
+  font-size:clamp(17px,1.25vw,22px);
+  color:#174f3c;
+  line-height:1.12;
+}
+.future-v3-card p{
+  margin:.78rem 0 0;
+  color:#66706d;
+  font-size:clamp(11px,.84vw,14px);
+  line-height:1.42;
+}
+
+@media(max-width:900px){
+  .future-v3{
+    grid-template-columns:1fr;
+    padding:9vh 6vw 12vh;
+    overflow:auto;
+  }
+  .future-v3-panel{display:none}
+}
+
+
+/* V20 — slide 6 ampliado */
+.future-v3{
+  padding:5.2vh 4.8vw 6.2vh;
+  grid-template-columns:minmax(0,.68fr) minmax(0,1.32fr);
+  gap:3.8vw;
+}
+.future-v3-copy h1{
+  font-size:clamp(62px,7.6vw,122px);
+}
+.future-v3-copy .lead{
+  max-width:590px;
+  font-size:clamp(18px,1.46vw,25px);
+}
+.future-v3-copy .fact{
+  max-width:570px;
+  font-size:14px;
+  line-height:1.48;
+}
+
+.future-v3-panel{
+  height:min(77vh,710px);
+  min-height:590px;
+  width:100%;
+}
+.future-v3-head{
+  top:0;
+  padding-bottom:.85rem;
+}
+.future-v3-head b{
+  font-size:16px;
+}
+.future-v3-head span{
+  font-size:11px;
+}
+
+/* bloco principal maior */
+.future-v3-hero{
+  top:10%;
+  min-height:260px;
+  padding:1.2rem 1.25rem 1.1rem;
+}
+.future-v3-hero .top{
+  grid-template-columns:60px minmax(0,1fr);
+  gap:1rem;
+}
+.future-v3-hero .ico{
+  width:54px;
+  height:54px;
+}
+.future-v3-hero .ico svg{
+  width:27px;
+  height:27px;
+}
+.future-v3-hero b{
+  font-size:clamp(28px,2.15vw,38px);
+}
+.future-v3-hero p{
+  max-width:560px;
+  font-size:clamp(13px,.98vw,16px);
+}
+.future-v3-offshore-note{
+  max-width:540px;
+  font-size:13px;
+  line-height:1.45;
+}
+
+/* turbina e mar maiores */
+.future-v3-turbine{
+  right:3%;
+  bottom:5%;
+  width:27%;
+  height:61%;
+}
+.future-v3-wave1,
+.future-v3-wave2{
+  right:24%;
+}
+.future-v3-wave1{bottom:10%}
+.future-v3-wave2{bottom:2%}
+
+/* cards inferiores maiores */
+.future-v3-grid{
+  gap:1.15rem;
+}
+.future-v3-card{
+  min-height:190px;
+  padding:1.1rem 1.05rem 1rem;
+}
+.future-v3-card .head{
+  gap:.8rem;
+}
+.future-v3-card .ico{
+  width:48px;
+  height:48px;
+}
+.future-v3-card .ico svg{
+  width:24px;
+  height:24px;
+}
+.future-v3-card b{
+  font-size:clamp(19px,1.4vw,24px);
+}
+.future-v3-card p{
+  margin-top:.85rem;
+  font-size:clamp(12px,.9vw,15px);
+  line-height:1.45;
+}
+
+/* reduz um pouco a marca de fundo para não competir */
+.future-v3-mark{
+  font-size:clamp(130px,15vw,250px);
+  top:-3%;
+}
+
+
+/* V21 — novo slide 3: energia eólica em números */
+.numbers-slide{
+  position:absolute;
+  inset:0;
+  padding:6.2vh 5.6vw 6.8vh;
+  overflow:hidden;
+}
+.numbers-slide .eyebrow{
+  position:absolute;
+  left:5.6vw;
+  top:6.2vh;
+  color:#65c797;
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.numbers-slide .ghost{
+  position:absolute;
+  right:-1.5vw;
+  top:-7vh;
+  font-size:clamp(210px,28vw,470px);
+  line-height:.8;
+  font-weight:800;
+  letter-spacing:-.09em;
+  color:rgba(255,255,255,.025);
+  pointer-events:none;
+}
+.numbers-stage{
+  position:absolute;
+  left:5.6vw;
+  right:5.6vw;
+  top:17vh;
+  bottom:13vh;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  align-items:stretch;
+}
+.number-block{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-width:0;
+  padding:0 3vw;
+  border-left:1px solid rgba(255,255,255,.12);
+  opacity:0;
+  transform:translateY(28px);
+  animation:numberEnter .75s ease forwards;
+}
+.number-block:first-child{
+  padding-left:0;
+  border-left:0;
+}
+.number-block:nth-child(1){animation-delay:.12s}
+.number-block:nth-child(2){animation-delay:.42s}
+.number-block:nth-child(3){animation-delay:.72s}
+@keyframes numberEnter{
+  to{opacity:1;transform:translateY(0)}
+}
+.number-index{
+  position:absolute;
+  top:9%;
+  left:3vw;
+  font-size:10px;
+  letter-spacing:.15em;
+  color:#5d746b;
+}
+.number-block:first-child .number-index{left:0}
+.number-value{
+  display:flex;
+  align-items:flex-end;
+  gap:.45rem;
+  white-space:nowrap;
+}
+.number-value strong{
+  font-size:clamp(58px,7.2vw,116px);
+  line-height:.82;
+  letter-spacing:-.07em;
+  color:#eef5f1;
+  font-weight:780;
+}
+.number-value b{
+  padding-bottom:.3rem;
+  font-size:clamp(18px,1.65vw,29px);
+  color:#65c797;
+  letter-spacing:-.02em;
+}
+.number-label{
+  margin-top:1.1rem;
+  max-width:290px;
+  color:#a2b1ab;
+  font-size:clamp(14px,1vw,17px);
+  line-height:1.42;
+}
+.number-context{
+  margin-top:.7rem;
+  max-width:290px;
+  color:#667a72;
+  font-size:11px;
+  line-height:1.4;
+}
+.numbers-footer{
+  position:absolute;
+  left:5.6vw;
+  right:5.6vw;
+  bottom:6.2vh;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:2rem;
+  padding-top:.8rem;
+  border-top:1px solid rgba(255,255,255,.12);
+}
+.numbers-footer .statement{
+  max-width:670px;
+  color:#d9e3df;
+  font-size:clamp(17px,1.25vw,22px);
+  line-height:1.35;
+}
+.numbers-footer .statement b{
+  color:#65c797;
+}
+.numbers-footer .source{
+  color:#5f716a;
+  font-size:9px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.numbers-line{
+  position:absolute;
+  left:0;
+  top:0;
+  height:2px;
+  width:0;
+  background:linear-gradient(90deg,#65c797,rgba(101,199,151,0));
+  animation:numberLine 1.4s .2s ease forwards;
+}
+@keyframes numberLine{to{width:100%}}
+
+@media(max-width:900px){
+  .numbers-stage{
+    grid-template-columns:1fr;
+    top:14vh;
+    bottom:16vh;
+  }
+  .number-block{
+    padding:1.2rem 0;
+    border-left:0;
+    border-top:1px solid rgba(255,255,255,.10);
+  }
+  .number-block:first-child{border-top:0}
+  .number-index{display:none}
+  .number-value strong{font-size:58px}
+}
+
+
+/* V22 — slide 3 mais amigável e visual */
+.stats-friendly{
+  position:absolute;
+  inset:0;
+  padding:5.8vh 5.5vw 6.6vh;
+  display:grid;
+  grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);
+  gap:4.2vw;
+  align-items:center;
+  overflow:hidden;
+}
+.stats-friendly:before{
+  content:"";
+  position:absolute;
+  width:34vw;
+  height:34vw;
+  right:-10vw;
+  top:-12vw;
+  border-radius:50%;
+  background:rgba(101,199,151,.08);
+}
+.stats-friendly:after{
+  content:"";
+  position:absolute;
+  width:23vw;
+  height:23vw;
+  right:8vw;
+  bottom:-13vw;
+  border-radius:50%;
+  background:rgba(126,174,185,.08);
+}
+.stats-copy{
+  position:relative;
+  z-index:2;
+  align-self:center;
+}
+.stats-copy .kicker{
+  color:#2d7156;
+}
+.stats-copy h1{
+  font-size:clamp(58px,6.7vw,108px);
+  line-height:.92;
+  color:#183f33;
+  letter-spacing:-.055em;
+}
+.stats-copy .lead{
+  max-width:560px;
+  color:#64706b;
+  font-size:clamp(17px,1.35vw,23px);
+  line-height:1.45;
+}
+.stats-copy .mini-note{
+  margin-top:1.3rem;
+  max-width:520px;
+  padding-left:.9rem;
+  border-left:3px solid #65c797;
+  color:#6d7873;
+  font-size:13px;
+  line-height:1.48;
+}
+
+.stats-rail{
+  position:relative;
+  z-index:2;
+  min-height:560px;
+  display:grid;
+  grid-template-rows:repeat(3,1fr);
+  gap:1.25rem;
+}
+.stats-rail:before{
+  content:"";
+  position:absolute;
+  left:37px;
+  top:58px;
+  bottom:58px;
+  width:2px;
+  background:#d6ddd8;
+}
+.stats-rail:after{
+  content:"";
+  position:absolute;
+  left:37px;
+  top:58px;
+  width:2px;
+  height:0;
+  background:#65c797;
+  animation:statsLine 1.6s .25s ease forwards;
+}
+@keyframes statsLine{
+  to{height:calc(100% - 116px)}
+}
+
+.stat-row{
+  position:relative;
+  display:grid;
+  grid-template-columns:76px minmax(0,1fr) auto;
+  gap:1.1rem;
+  align-items:center;
+  padding:1rem 0 1rem .1rem;
+  opacity:0;
+  transform:translateX(22px);
+  animation:statRowIn .7s ease forwards;
+}
+.stat-row:nth-child(1){animation-delay:.15s}
+.stat-row:nth-child(2){animation-delay:.42s}
+.stat-row:nth-child(3){animation-delay:.69s}
+@keyframes statRowIn{
+  to{opacity:1;transform:translateX(0)}
+}
+
+.stat-icon{
+  position:relative;
+  z-index:3;
+  width:76px;
+  height:76px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#f8fbf9;
+  border:1px solid #cdd8d2;
+  box-shadow:0 8px 20px rgba(30,62,51,.06);
+}
+.stat-icon svg{
+  width:32px;
+  height:32px;
+  stroke:#2c7255;
+  fill:none;
+  stroke-width:1.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.stat-main{
+  min-width:0;
+}
+.stat-tag{
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#7e8a84;
+}
+.stat-value{
+  margin-top:.18rem;
+  display:flex;
+  align-items:flex-end;
+  gap:.4rem;
+  white-space:nowrap;
+}
+.stat-value strong{
+  font-size:clamp(44px,4.9vw,78px);
+  line-height:.88;
+  letter-spacing:-.06em;
+  color:#183f33;
+}
+.stat-value b{
+  padding-bottom:.25rem;
+  color:#2f7a5b;
+  font-size:clamp(18px,1.5vw,26px);
+}
+.stat-desc{
+  margin-top:.48rem;
+  max-width:470px;
+  color:#68736e;
+  font-size:13px;
+  line-height:1.43;
+}
+.stat-badge{
+  align-self:center;
+  min-width:102px;
+  text-align:right;
+  color:#9aa39f;
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.stats-highlight{
+  position:absolute;
+  left:5.5vw;
+  right:5.5vw;
+  bottom:4.4vh;
+  z-index:3;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:2rem;
+  padding:.85rem 0 0;
+  border-top:1px solid #cbd2ce;
+}
+.stats-highlight .text{
+  color:#44524c;
+  font-size:clamp(15px,1.05vw,18px);
+  line-height:1.35;
+}
+.stats-highlight .text b{
+  color:#2e7759;
+}
+.stats-highlight .source{
+  color:#8a9490;
+  font-size:9px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+@media(max-width:1000px){
+  .stats-friendly{
+    grid-template-columns:1fr;
+    padding:8vh 6vw 12vh;
+    overflow:auto;
+  }
+  .stats-rail{
+    min-height:auto;
+    margin-top:1rem;
+  }
+  .stats-highlight{
+    position:static;
+    margin-top:1rem;
+  }
+}
+
+
+/* V23 — correção do traço sobre os ícones no slide 3 */
+.stats-rail{
+  isolation:isolate;
+}
+.stats-rail:before,
+.stats-rail:after{
+  z-index:0;
+  left:38px;
+}
+.stat-row{
+  position:relative;
+  z-index:2;
+}
+.stat-icon{
+  z-index:3;
+  background:#f6f2e9;
+  border:1px solid #c8d4ce;
+  box-shadow:0 10px 22px rgba(30,62,51,.08);
+}
+
+/* leve ajuste para o traço não "encostar" demais nos círculos */
+.stats-rail:before{
+  top:66px;
+  bottom:66px;
+}
+.stats-rail:after{
+  top:66px;
+}
+
+
+/* V24 — animações estratégicas tipo PowerPoint */
+@keyframes revealUp{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes revealLeft{
+  from{opacity:0;transform:translateX(-26px)}
+  to{opacity:1;transform:translateX(0)}
+}
+@keyframes revealRight{
+  from{opacity:0;transform:translateX(26px)}
+  to{opacity:1;transform:translateX(0)}
+}
+@keyframes revealScale{
+  from{opacity:0;transform:scale(.92)}
+  to{opacity:1;transform:scale(1)}
+}
+@keyframes revealGrowY{
+  from{opacity:0;transform:scaleY(.4)}
+  to{opacity:1;transform:scaleY(1)}
+}
+
+/* reset base para elementos que vão surgir */
+.hero-copy .kicker,
+.hero-copy h1,
+.hero-copy h2,
+.hero-copy .lead,
+.hero-stat,
+
+.process-layout > div:first-child .kicker,
+.process-layout > div:first-child h1,
+.process-layout > div:first-child .lead,
+.process-layout > div:first-child .fact,
+.process-step,
+
+.stats-copy .kicker,
+.stats-copy h1,
+.stats-copy .lead,
+.stats-copy .mini-note,
+.stat-row,
+.stats-highlight,
+
+.impact-v2 > div:first-child .kicker,
+.impact-v2 > div:first-child h1,
+.impact-v2 > div:first-child .lead,
+.impact-v2 > div:first-child .fact,
+.compare-card,
+.region-band,
+
+.coststory-copy .kicker,
+.coststory-copy h1,
+.coststory-copy .lead,
+.coststory-copy .coststory-note,
+.callout,
+.lcoe-panel,
+
+.challenge-layout > div:first-child .kicker,
+.challenge-layout > div:first-child h1,
+.challenge-layout > div:first-child .lead,
+.center-pulse,
+.node,
+.net-label,
+
+.future-v3-copy .kicker,
+.future-v3-copy h1,
+.future-v3-copy .lead,
+.future-v3-copy .fact,
+.future-v3-hero,
+.future-v3-card,
+
+.final-copy .kicker,
+.final-copy h1,
+.final-copy h2,
+.final-copy .lead,
+.final-stat{
+  opacity:0;
+}
+
+/* estado inicial específico */
+.hero-copy .kicker,
+.hero-copy h1,
+.hero-copy h2,
+.hero-copy .lead,
+.process-layout > div:first-child .kicker,
+.process-layout > div:first-child h1,
+.process-layout > div:first-child .lead,
+.process-layout > div:first-child .fact,
+.stats-copy .kicker,
+.stats-copy h1,
+.stats-copy .lead,
+.stats-copy .mini-note,
+.impact-v2 > div:first-child .kicker,
+.impact-v2 > div:first-child h1,
+.impact-v2 > div:first-child .lead,
+.impact-v2 > div:first-child .fact,
+.coststory-copy .kicker,
+.coststory-copy h1,
+.coststory-copy .lead,
+.coststory-copy .coststory-note,
+.challenge-layout > div:first-child .kicker,
+.challenge-layout > div:first-child h1,
+.challenge-layout > div:first-child .lead,
+.future-v3-copy .kicker,
+.future-v3-copy h1,
+.future-v3-copy .lead,
+.future-v3-copy .fact,
+.final-copy .kicker,
+.final-copy h1,
+.final-copy h2,
+.final-copy .lead{
+  transform:translateY(22px);
+}
+
+.hero-stat,
+.process-step,
+.compare-card,
+.region-band,
+.callout,
+.lcoe-panel,
+.future-v3-hero,
+.future-v3-card,
+.final-stat{
+  transform:translateY(18px);
+}
+
+.stat-row,
+.node{
+  transform:translateX(24px);
+}
+.center-pulse{
+  transform:translate(-50%,-50%) scale(.9);
+}
+.net-label{
+  transform:scale(.92);
+}
+
+/* elementos com animação que precisam esperar o slide ficar ativo */
+.stats-rail:after{
+  height:0;
+  animation:none;
+}
+.stat-row{
+  animation:none;
+}
+.lcoe-fill{
+  width:0;
+  animation:none;
+}
+
+/* 01 — abertura */
+.slide.active .hero-copy .kicker{animation:revealUp .55s ease .08s both}
+.slide.active .hero-copy h1{animation:revealUp .7s cubic-bezier(.2,.8,.2,1) .2s both}
+.slide.active .hero-copy h2{animation:revealUp .55s ease .42s both}
+.slide.active .hero-copy .lead{animation:revealUp .55s ease .58s both}
+.slide.active .hero-stat:nth-child(1){animation:revealUp .55s ease .82s both}
+.slide.active .hero-stat:nth-child(2){animation:revealUp .55s ease .98s both}
+
+/* 02 — funcionamento */
+.slide.active .process-layout > div:first-child .kicker{animation:revealUp .5s ease .08s both}
+.slide.active .process-layout > div:first-child h1{animation:revealUp .65s ease .2s both}
+.slide.active .process-layout > div:first-child .lead{animation:revealUp .55s ease .38s both}
+.slide.active .process-layout > div:first-child .fact{animation:revealUp .5s ease .52s both}
+.slide.active .process-step:nth-child(1){animation:revealUp .5s ease .82s both}
+.slide.active .process-step:nth-child(2){animation:revealUp .5s ease .98s both}
+.slide.active .process-step:nth-child(3){animation:revealUp .5s ease 1.14s both}
+
+/* 03 — números */
+.slide.active .stats-copy .kicker{animation:revealUp .5s ease .08s both}
+.slide.active .stats-copy h1{animation:revealUp .65s ease .2s both}
+.slide.active .stats-copy .lead{animation:revealUp .55s ease .4s both}
+.slide.active .stats-copy .mini-note{animation:revealUp .5s ease .56s both}
+.slide.active .stats-rail:after{animation:statsLine 1.35s ease .4s both}
+.slide.active .stat-row:nth-child(1){animation:statRowIn .7s ease .62s both}
+.slide.active .stat-row:nth-child(2){animation:statRowIn .7s ease .84s both}
+.slide.active .stat-row:nth-child(3){animation:statRowIn .7s ease 1.06s both}
+.slide.active .stats-highlight{animation:revealUp .55s ease 1.22s both}
+
+/* 04 — impactos */
+.slide.active .impact-v2 > div:first-child .kicker{animation:revealUp .5s ease .08s both}
+.slide.active .impact-v2 > div:first-child h1{animation:revealUp .65s ease .2s both}
+.slide.active .impact-v2 > div:first-child .lead{animation:revealUp .55s ease .4s both}
+.slide.active .impact-v2 > div:first-child .fact{animation:revealUp .5s ease .56s both}
+.slide.active .compare-card:nth-child(1){animation:revealUp .55s ease .84s both}
+.slide.active .compare-card:nth-child(2){animation:revealUp .55s ease 1.02s both}
+.slide.active .region-band{animation:revealUp .55s ease 1.18s both}
+
+/* 05 — custo-benefício */
+.slide.active .coststory-copy .kicker{animation:revealUp .5s ease .08s both}
+.slide.active .coststory-copy h1{animation:revealUp .65s ease .2s both}
+.slide.active .coststory-copy .lead{animation:revealUp .55s ease .38s both}
+.slide.active .coststory-copy .coststory-note{animation:revealUp .55s ease .56s both}
+.slide.active .callout.install{animation:revealRight .55s ease .82s both}
+.slide.active .callout.fuel{animation:revealRight .55s ease .98s both}
+.slide.active .callout.operation{animation:revealRight .55s ease 1.14s both}
+.slide.active .lcoe-panel{animation:revealUp .55s ease 1.28s both}
+.slide.active .lcoe-panel .lcoe-fill{animation:lcoeGrow 1s .95s ease forwards}
+
+/* 06 — desafios */
+.slide.active .challenge-layout > div:first-child .kicker{animation:revealUp .5s ease .08s both}
+.slide.active .challenge-layout > div:first-child h1{animation:revealUp .65s ease .2s both}
+.slide.active .challenge-layout > div:first-child .lead{animation:revealUp .55s ease .38s both}
+.slide.active .center-pulse{animation:revealScale .55s ease .7s both}
+.slide.active .node.one{animation:revealScale .5s ease .9s both}
+.slide.active .node.two{animation:revealScale .5s ease 1.04s both}
+.slide.active .node.three{animation:revealScale .5s ease 1.18s both}
+.slide.active .node.four{animation:revealScale .5s ease 1.32s both}
+.slide.active .net-label.a{animation:revealScale .4s ease 1.02s both}
+.slide.active .net-label.b{animation:revealScale .4s ease 1.16s both}
+.slide.active .net-label.c{animation:revealScale .4s ease 1.3s both}
+.slide.active .net-label.d{animation:revealScale .4s ease 1.44s both}
+
+/* 07 — futuro */
+.slide.active .future-v3-copy .kicker{animation:revealUp .5s ease .08s both}
+.slide.active .future-v3-copy h1{animation:revealUp .65s ease .2s both}
+.slide.active .future-v3-copy .lead{animation:revealUp .55s ease .4s both}
+.slide.active .future-v3-copy .fact{animation:revealUp .5s ease .56s both}
+.slide.active .future-v3-hero{animation:revealUp .6s ease .84s both}
+.slide.active .future-v3-card:nth-child(1){animation:revealUp .5s ease 1.1s both}
+.slide.active .future-v3-card:nth-child(2){animation:revealUp .5s ease 1.24s both}
+.slide.active .future-v3-card:nth-child(3){animation:revealUp .5s ease 1.38s both}
+
+/* 08 — conclusão */
+.slide.active .final-copy .kicker{animation:revealUp .5s ease .08s both}
+.slide.active .final-copy h1{animation:revealUp .65s ease .2s both}
+.slide.active .final-copy h2{animation:revealUp .55s ease .42s both}
+.slide.active .final-copy .lead{animation:revealUp .55s ease .58s both}
+.slide.active .final-stat:nth-child(1){animation:revealUp .55s ease .9s both}
+.slide.active .final-stat:nth-child(2){animation:revealUp .55s ease 1.06s both}
+.slide.active .final-stat:nth-child(3){animation:revealUp .55s ease 1.22s both}
+
+
+/* V25 — apresentação em etapas, tipo PowerPoint */
+.build-item{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  animation:none !important;
+  transform:translateY(18px);
+  transition:none;
+}
+.build-item.revealed{
+  visibility:visible;
+  pointer-events:auto;
+  animation:buildReveal .52s cubic-bezier(.2,.82,.2,1) both !important;
+}
+@keyframes buildReveal{
+  0%{
+    opacity:0;
+    transform:translateY(20px) scale(.975);
+    filter:blur(2px);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0) scale(1);
+    filter:blur(0);
+  }
+}
+
+/* variações leves conforme o conteúdo */
+.callout.build-item.revealed,
+.node.build-item.revealed{
+  animation-name:buildRevealSide !important;
+}
+@keyframes buildRevealSide{
+  0%{
+    opacity:0;
+    transform:translateX(24px) scale(.98);
+  }
+  100%{
+    opacity:1;
+    transform:translateX(0) scale(1);
+  }
+}
+.net-label.build-item.revealed{
+  animation:buildLabel .36s ease both !important;
+}
+@keyframes buildLabel{
+  from{opacity:0;transform:scale(.82)}
+  to{opacity:1;transform:scale(1)}
+}
+
+/* anima o conteúdo interno somente quando o grupo é revelado */
+.lcoe-panel.build-item .lcoe-fill{
+  width:0;
+  animation:none !important;
+}
+.lcoe-panel.build-item.revealed .lcoe-fill{
+  animation:lcoeGrow 1s .18s ease forwards !important;
+}
+
+/* linha do slide 3 acompanha os números revelados */
+.stats-rail:after{
+  height:0 !important;
+  animation:none !important;
+}
+.slide.active .stats-rail.build-started:after{
+  animation:statsLine 1.2s ease forwards !important;
+}
+
+/* pequena dica do modo de apresentação */
+.build-status{
+  position:fixed;
+  left:50%;
+  bottom:2.35vh;
+  transform:translateX(-50%);
+  z-index:60;
+  padding:.38rem .68rem;
+  border-radius:999px;
+  font-size:9px;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  opacity:0;
+  transition:opacity .2s ease;
+  pointer-events:none;
+}
+.dark ~ .build-status,
+.build-status{
+  background:rgba(8,18,20,.78);
+  color:#9eb0aa;
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(8px);
+}
+.build-status.show{opacity:1}
+
+/* efeito curto quando realmente troca de slide */
+.page-wipe{
+  position:fixed;
+  inset:0;
+  z-index:99;
+  pointer-events:none;
+  opacity:0;
+  transform:translateX(-102%);
+  background:linear-gradient(90deg,
+    rgba(101,199,151,0) 0%,
+    rgba(101,199,151,.13) 42%,
+    rgba(255,255,255,.10) 50%,
+    rgba(101,199,151,.13) 58%,
+    rgba(101,199,151,0) 100%);
+}
+.page-wipe.run{
+  animation:pageWipe .46s cubic-bezier(.4,0,.2,1);
+}
+@keyframes pageWipe{
+  0%{opacity:0;transform:translateX(-105%)}
+  15%{opacity:1}
+  85%{opacity:1}
+  100%{opacity:0;transform:translateX(105%)}
+}
+
+/* acessibilidade */
+@media (prefers-reduced-motion: reduce){
+  .build-item.revealed{
+    animation:none !important;
+    opacity:1 !important;
+    transform:none !important;
+    filter:none !important;
+  }
+  .page-wipe.run{animation:none}
+}
+
+
+/* V26 — pequenos ajustes do modo de etapas */
+.build-status{
+  bottom:2.55vh;
+  font-size:10px;
+  letter-spacing:.08em;
+  padding:.42rem .75rem;
+}
+
+
+/* V27 — correção real do modo de etapas */
+.build-item.revealed{
+  visibility:visible;
+  pointer-events:auto;
+}
+
+/* O centro do slide 6 precisa manter o posicionamento ao surgir */
+.center-pulse.build-item{
+  transform:translate(-50%,-50%) scale(.9);
+}
+.center-pulse.build-item.revealed{
+  animation:buildCenterReveal .48s cubic-bezier(.2,.82,.2,1) both !important;
+}
+@keyframes buildCenterReveal{
+  from{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.88);
+  }
+  to{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+  }
+}
+
+/* Move a indicação das etapas para não sobrepor a dica de navegação */
+.build-status{
+  bottom:6.8vh;
+}
+
+
+/* V28 — rodapé mais limpo */
+.speaker,
+.hint{
+  display:none !important;
+}
+
+
+/* V29 — apresentação limpa, sem controles visuais */
+.controls,
+#prev,
+#next,
+#fs,
+.build-status,
+#buildStatus{
+  display:none !important;
+}
+
+/* cursor discreto; clique em qualquer lugar avança a apresentação */
+.deck,
+.slide{
+  cursor:default;
+}
+
+
+/* V30 — correção do gráfico Em terra x No mar */
+.lcoe-panel.build-item.revealed{
+  opacity:1 !important;
+  visibility:visible !important;
+}
+
+.lcoe-panel.build-item.revealed .lcoe-fill{
+  animation:lcoeGrow 1s .2s cubic-bezier(.2,.8,.2,1) forwards !important;
+}
+
+.lcoe-panel.build-item.revealed .lcoe-row:nth-child(2) .lcoe-fill{
+  animation-delay:.38s !important;
+}
+
+.lcoe-row .kind,
+.lcoe-value,
+.lcoe-value small,
+.lcoe-title{
+  visibility:visible;
+}
+
+.lcoe-track{
+  min-width:120px;
+}
+
+
+/* V31 — slide final de encerramento */
+.closing-slide{
+  position:absolute;
+  inset:0;
+  padding:6vh 5.6vw 7vh;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:4.4vw;
+  align-items:center;
+}
+.closing-slide:before{
+  content:"";
+  position:absolute;
+  width:34vw;
+  height:34vw;
+  left:-10vw;
+  top:-12vw;
+  border-radius:50%;
+  background:rgba(101,199,151,.07);
+}
+.closing-slide:after{
+  content:"";
+  position:absolute;
+  width:22vw;
+  height:22vw;
+  right:-6vw;
+  bottom:-8vw;
+  border-radius:50%;
+  background:rgba(126,174,185,.08);
+}
+.closing-copy,
+.closing-panel{
+  position:relative;
+  z-index:2;
+}
+.closing-copy .kicker{
+  color:#2c7155;
+}
+.closing-copy h1{
+  font-size:clamp(72px,8.5vw,148px);
+  line-height:.84;
+  letter-spacing:-.07em;
+  color:#153d31;
+}
+.closing-copy h2{
+  margin-top:.45rem;
+  font-size:clamp(20px,1.75vw,32px);
+  line-height:1.15;
+  color:#2e7759;
+  font-weight:620;
+}
+.closing-copy .lead{
+  max-width:520px;
+  margin-top:1.1rem;
+  color:#66706d;
+  font-size:clamp(17px,1.25vw,22px);
+  line-height:1.45;
+}
+.closing-panel{
+  min-height:530px;
+  display:grid;
+  grid-template-rows:auto auto 1fr;
+  gap:1.15rem;
+}
+.closing-top{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:1rem;
+  padding-bottom:.75rem;
+  border-bottom:1px solid #c6cec9;
+}
+.closing-top b{
+  font-size:14px;
+  color:#174f3c;
+}
+.closing-top span{
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#7b837f;
+}
+.closing-summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:.95rem;
+}
+.closing-pill{
+  min-height:108px;
+  padding:.92rem .95rem .9rem;
+  background:rgba(255,255,255,.42);
+  border:1px solid rgba(24,79,60,.10);
+  box-shadow:0 10px 24px rgba(39,48,46,.04);
+}
+.closing-pill b{
+  display:block;
+  font-size:clamp(15px,1.15vw,19px);
+  color:#174f3c;
+}
+.closing-pill p{
+  margin:.45rem 0 0;
+  color:#66706d;
+  font-size:12px;
+  line-height:1.4;
+}
+.members-card{
+  padding:1.05rem 1.05rem 1rem;
+  background:rgba(255,255,255,.36);
+  border:1px solid rgba(24,79,60,.10);
+  box-shadow:0 12px 26px rgba(39,48,46,.04);
+}
+.members-card .title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  padding-bottom:.75rem;
+  border-bottom:1px solid rgba(24,79,60,.10);
+}
+.members-card .title b{
+  font-size:14px;
+  color:#174f3c;
+}
+.members-card .title span{
+  font-size:10px;
+  color:#79827f;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.members-grid{
+  margin-top:.95rem;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:.75rem .9rem;
+}
+.member-item{
+  padding:.8rem .85rem;
+  background:rgba(248,251,249,.8);
+  border:1px solid #d6dfda;
+}
+.member-item b{
+  display:block;
+  font-size:13px;
+  line-height:1.35;
+  color:#203a31;
+}
+.member-item span{
+  display:block;
+  margin-top:.25rem;
+  font-size:11px;
+  color:#75807b;
+}
+.member-item.full{
+  grid-column:1 / -1;
+}
+.closing-question{
+  margin-top:.95rem;
+  padding-top:.9rem;
+  border-top:1px solid rgba(24,79,60,.10);
+  font-size:clamp(22px,1.7vw,30px);
+  color:#2d7759;
+  font-weight:620;
+}
+
+.slide.active .closing-copy .kicker{animation:revealUp .5s ease .08s both}
+.slide.active .closing-copy h1{animation:revealUp .65s ease .22s both}
+.slide.active .closing-copy h2{animation:revealUp .5s ease .42s both}
+.slide.active .closing-copy .lead{animation:revealUp .55s ease .58s both}
+.slide.active .closing-top{animation:revealUp .5s ease .84s both}
+.slide.active .closing-pill:nth-child(1){animation:revealUp .45s ease 1s both}
+.slide.active .closing-pill:nth-child(2){animation:revealUp .45s ease 1.14s both}
+.slide.active .closing-pill:nth-child(3){animation:revealUp .45s ease 1.28s both}
+.slide.active .members-card{animation:revealUp .55s ease 1.45s both}
+
+.closing-top,
+.closing-pill,
+.members-card{
+  opacity:0;
+  transform:translateY(18px);
+}
+
+@media(max-width:1000px){
+  .closing-slide{
+    grid-template-columns:1fr;
+    padding:8vh 6vw 12vh;
+    overflow:auto;
+  }
+  .closing-summary{
+    grid-template-columns:1fr;
+  }
+  .members-grid{
+    grid-template-columns:1fr;
+  }
+  .member-item.full{
+    grid-column:auto;
+  }
+}
+
+</style>
+</head>
+<body>
+<div class="deck">
+  <div class="progress" id="progress"></div>
+  </button>
+
+  <!-- 01 HERO -->
+  <section class="slide dark active" data-note="Abrir com uma pergunta curta: como o vento consegue virar eletricidade? Apresentar o tema e dizer que o vídeo vai abordar funcionamento, impactos, custos, desafios e futuro.">
+    <div class="hero">
+      <div class="hero-copy">
+        <div class="kicker">Energia renovável</div>
+        <h1>Energia<br>eólica</h1>
+        <h2>Do vento à eletricidade.</h2>
+        <p class="lead">Uma fonte renovável que ganhou espaço na matriz energética brasileira e mundial.</p>
+      </div>
+      <div class="hero-landscape">
+        <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#18493a"/><stop offset="1" stop-color="#0b231d"/></linearGradient>
+          </defs>
+          <path class="sky-wave" d="M700 135 C910 55 1020 155 1210 105 S1470 80 1600 130"/>
+          <path class="sky-wave" d="M650 235 C860 160 1030 280 1250 205 S1480 175 1600 210"/>
+          <path class="sky-wave" d="M760 330 C930 290 1080 365 1290 320 S1490 305 1600 340"/>
+          <path d="M550 900 Q870 610 1160 730 T1700 650 V900Z" fill="url(#hill)"/>
+          
+          <g transform="translate(1145 280)">
+            <line x1="0" y1="22" x2="0" y2="430" stroke="#edf3f0" stroke-width="10" stroke-linecap="round"/>
+            <g>
+              <circle cx="0" cy="0" r="14" fill="#65c797"/>
+              <path d="M0 0 C8 -14 14 -42 8 -110 C3 -118 -3 -118 -8 -110 C-14 -42 -8 -14 0 0 Z" fill="#edf3f0"/>
+              <path d="M0 0 C8 -14 14 -42 8 -110 C3 -118 -3 -118 -8 -110 C-14 -42 -8 -14 0 0 Z" fill="#edf3f0" transform="rotate(120)"/>
+              <path d="M0 0 C8 -14 14 -42 8 -110 C3 -118 -3 -118 -8 -110 C-14 -42 -8 -14 0 0 Z" fill="#edf3f0" transform="rotate(240)"/>
+              <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="7s" repeatCount="indefinite"/>
+            </g>
+          </g>
+
+          
+          <g transform="translate(1420 420) scale(.65)">
+            <line x1="0" y1="22" x2="0" y2="430" stroke="#edf3f0" stroke-width="10" stroke-linecap="round" opacity=".78"/>
+            <g opacity=".78">
+              <circle cx="0" cy="0" r="14" fill="#65c797"/>
+              <path d="M0 0 C8 -14 14 -42 8 -110 C3 -118 -3 -118 -8 -110 C-14 -42 -8 -14 0 0 Z" fill="#edf3f0"/>
+              <path d="M0 0 C8 -14 14 -42 8 -110 C3 -118 -3 -118 -8 -110 C-14 -42 -8 -14 0 0 Z" fill="#edf3f0" transform="rotate(120)"/>
+              <path d="M0 0 C8 -14 14 -42 8 -110 C3 -118 -3 -118 -8 -110 C-14 -42 -8 -14 0 0 Z" fill="#edf3f0" transform="rotate(240)"/>
+              <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="7s" repeatCount="indefinite"/>
+            </g>
+          </g>
+
+          </g>
+        </svg>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat build-item" data-build="1"><b>34,7 GW</b><span>potência instalada no Brasil em 2025</span><small>EPE, 2026</small></div>
+        <div class="hero-stat build-item" data-build="2"><b>116,5 TWh</b><span>geração eólica brasileira em 2025</span><small>EPE, 2026</small></div>
+      </div>
+    </div>
+    <div class="count">01 / 09</div>
+  </section>
+
+  <!-- 02 PROCESSO -->
+  <section class="slide light" data-note="Explicar o caminho principal: vento, rotor e gerador. Citar rapidamente em terra e no mar.">
+    <div class="process-layout">
+      <div>
+        <div class="kicker">Funcionamento</div>
+        <h1>Como o vento<br>vira energia?</h1>
+        <p class="lead">O vento movimenta as pás, o rotor transfere esse movimento e o gerador produz eletricidade.</p>
+        <div class="fact">Os aerogeradores podem operar em terra ou no mar.</div>
+      </div>
+      <div class="process-visual">
+        <div class="process-bg-number">3</div>
+        <div class="wind-lines">
+          <svg viewBox="0 0 360 180"><path d="M5 45 C70 12 112 68 185 38 S287 15 350 42"/><path d="M0 92 C76 58 128 116 216 80 S304 60 355 85"/><path d="M24 138 C88 108 143 157 224 128 S304 112 355 130"/></svg>
+        </div>
+        
+        <div class="process-turbine">
+          <svg viewBox="0 0 260 420">
+            <line x1="130" y1="142" x2="130" y2="390" stroke="#174f3c" stroke-width="8" stroke-linecap="round"/>
+            <g transform="translate(130 122)">
+              <g>
+                <circle cx="0" cy="0" r="10" fill="#65c797"/>
+                <path d="M0 0 C6 -10 10 -28 6 -78 C2 -84 -2 -84 -6 -78 C-10 -28 -6 -10 0 0 Z" fill="#174f3c"/>
+                <path d="M0 0 C6 -10 10 -28 6 -78 C2 -84 -2 -84 -6 -78 C-10 -28 -6 -10 0 0 Z" fill="#174f3c" transform="rotate(120)"/>
+                <path d="M0 0 C6 -10 10 -28 6 -78 C2 -84 -2 -84 -6 -78 C-10 -28 -6 -10 0 0 Z" fill="#174f3c" transform="rotate(240)"/>
+                <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="6.2s" repeatCount="indefinite"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        <div class="energy-link"><i></i></div>
+        <div class="energy-orb">
+          <svg viewBox="0 0 24 24"><path d="m13 2-7 12h6l-1 8 7-12h-6z"/></svg>
+        </div>
+        <div class="process-bottom">
+          <div class="process-step build-item" data-build="1"><div class="n">01</div><b>Vento</b><span>A força do ar movimenta as pás.</span></div>
+          <div class="process-step build-item" data-build="2"><div class="n">02</div><b>Movimento</b><span>O rotor transforma vento em rotação.</span></div>
+          <div class="process-step build-item" data-build="3"><div class="n">03</div><b>Eletricidade</b><span>O gerador converte a rotação em energia elétrica.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="count">02 / 09</div>
+  </section>
+
+
+  <!-- 03 NÚMEROS -->
+  <section class="slide light" data-note="Transição rápida: mostrar a escala que a energia eólica já alcançou. No Brasil, 34,7 GW instalados e 116,5 TWh gerados em 2025. No mundo, 158,7 GW de nova capacidade eólica foram adicionados no mesmo ano.">
+    <div class="stats-friendly">
+      <div class="stats-copy">
+        <div class="kicker">Energia eólica em números · 2025</div>
+        <h1>Uma fonte<br>que já tem<br>escala.</h1>
+        <p class="lead">Os dados ajudam a mostrar que a energia eólica já ocupa um espaço importante no Brasil e continua crescendo no mundo.</p>
+        <div class="mini-note">A ideia aqui é simples: mostrar tamanho, geração e expansão sem transformar o slide em uma tabela.</div>
+      </div>
+
+      <div class="stats-rail">
+        <div class="stat-row build-item" data-build="1">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 4v16"/>
+              <path d="M12 6c3-3 5-3 7-2-1 3-3 5-7 5"/>
+              <path d="M12 10c-3-3-5-3-7-2 1 3 3 5 7 5"/>
+            </svg>
+          </div>
+          <div class="stat-main">
+            <div class="stat-tag">Brasil · potência instalada</div>
+            <div class="stat-value"><strong>34,7</strong><b>GW</b></div>
+            <div class="stat-desc">Capacidade eólica instalada no país em 2025.</div>
+          </div>
+          <div class="stat-badge">Brasil</div>
+        </div>
+
+        <div class="stat-row build-item" data-build="2">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M13 2 6 13h5l-1 9 8-12h-5z"/>
+            </svg>
+          </div>
+          <div class="stat-main">
+            <div class="stat-tag">Brasil · geração</div>
+            <div class="stat-value"><strong>116,5</strong><b>TWh</b></div>
+            <div class="stat-desc">Eletricidade gerada por fonte eólica ao longo de 2025.</div>
+          </div>
+          <div class="stat-badge">Brasil</div>
+        </div>
+
+        <div class="stat-row build-item" data-build="3">
+          <div class="stat-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M3 12h18M12 3c3 3 4 6 4 9s-1 6-4 9M12 3c-3 3-4 6-4 9s1 6 4 9"/>
+            </svg>
+          </div>
+          <div class="stat-main">
+            <div class="stat-tag">Mundo · nova capacidade</div>
+            <div class="stat-value"><strong>158,7</strong><b>GW</b></div>
+            <div class="stat-desc">Nova capacidade eólica adicionada globalmente no mesmo ano.</div>
+          </div>
+          <div class="stat-badge">Mundo</div>
+        </div>
+      </div>
+
+      <div class="stats-highlight build-item" data-build="4">
+        <div class="text">Em 2025, a eólica ficou atrás apenas da <b>energia solar fotovoltaica</b> entre as renováveis que mais expandiram no mundo.</div>
+        <div class="source">Fontes: EPE, 2026 · IRENA, 2026</div>
+      </div>
+    </div>
+    <div class="count">03 / 09</div>
+  </section>
+
+  <!-- 04 IMPACTOS -->
+  <section class="slide light" data-note="Equilibrar benefícios e impactos. Falar de emissões, emprego e renda, mas também de fauna, ruído, paisagem e comunidades.">
+    <div class="impact-v2">
+      <div>
+        <div class="kicker">Impactos ambientais e sociais</div>
+        <h1>Benefícios amplos.<br>Impactos locais.</h1>
+        <p class="lead">A fonte eólica não queima combustíveis durante a geração e pode estimular emprego e renda, mas exige planejamento territorial e ambiental.</p>
+        <div class="fact">Em resumo: é uma alternativa limpa e importante, porém não é uma solução sem efeitos sobre o espaço onde é instalada.</div>
+      </div>
+
+      <div class="impact-v2-visual">
+        <div class="impact-v2-mark">03</div>
+
+        <div class="impact-v2-top">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M7 7l5 10 5-10M12 7V4"/></svg>
+          equilíbrio entre ganhos e cuidados
+        </div>
+
+        <div class="balance-glyph">
+          <svg viewBox="0 0 120 70">
+            <line x1="60" y1="12" x2="60" y2="56"/>
+            <line x1="25" y1="24" x2="95" y2="20"/>
+            <line x1="35" y1="24" x2="35" y2="39"/>
+            <line x1="84" y1="21" x2="84" y2="38"/>
+            <path d="M23 39h24c-2 9-8 13-12 13s-10-4-12-13Z"/>
+            <path d="M72 38h24c-2 9-8 13-12 13s-10-4-12-13Z"/>
+          </svg>
+        </div>
+
+        <div class="compare-divider"></div>
+
+        <div class="compare-grid">
+          <div class="compare-card build-item" data-build="1">
+            <div class="head">
+              <div class="icon">
+                <svg viewBox="0 0 24 24"><path d="M19 4C11 4 5 8 5 15c0 3 2 5 5 5 7 0 9-8 9-16Z"/><path d="M5 20c3-5 7-8 12-11"/></svg>
+              </div>
+              <b>Benefícios</b>
+            </div>
+            <ul>
+              <li>Baixas emissões operacionais durante a geração.</li>
+              <li>Aproveitamento de um recurso renovável.</li>
+              <li>Emprego e renda em regiões com forte potencial eólico.</li>
+            </ul>
+            <div class="tagline">ambiental + social + econômico</div>
+          </div>
+
+          <div class="compare-card build-item" data-build="2">
+            <div class="head">
+              <div class="icon">
+                <svg viewBox="0 0 24 24"><path d="M12 3 2.7 20h18.6z"/><path d="M12 8v5M12 17h.01"/></svg>
+              </div>
+              <b>Cuidados</b>
+            </div>
+            <ul>
+              <li>Impactos sobre fauna, como aves e morcegos.</li>
+              <li>Ruído e alteração da paisagem no entorno.</li>
+              <li>Necessidade de diálogo com comunidades locais.</li>
+            </ul>
+            <div class="tagline">licenciamento + planejamento</div>
+          </div>
+        </div>
+
+        <div class="region-band build-item" data-build="3">
+          <div class="region-donut-wrap">
+            <div class="region-donut"></div>
+            <div class="region-val">80%</div>
+          </div>
+          <div class="region-copy">
+            <b>Forte presença no Nordeste</b>
+            <span>Cerca de 80% dos parques eólicos brasileiros estão concentrados na região Nordeste, o que reforça sua importância econômica e social para esses estados.</span>
+            <div class="source">EPE, 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="count">04 / 09</div>
+  </section>
+
+  <!-- 05 CUSTOS -->
+  <section class="slide dark" data-note="Sua parte: explicar onde está o custo. O investimento é maior no início, o vento não tem custo de compra e depois permanecem gastos de operação e manutenção. Finalizar mostrando a diferença de custo nivelado entre em terra e no mar.">
+    <div class="coststory">
+      <div class="coststory-copy">
+        <div class="kicker">Custo-benefício</div>
+        <h1>Onde está<br>o custo?</h1>
+        <p class="lead">O maior investimento acontece antes da geração: compra das turbinas, obras, instalação e conexão à rede.</p>
+        <div class="coststory-note">Depois da implantação, os principais gastos passam a ser manutenção, monitoramento e troca de componentes.</div>
+      </div>
+
+      <div class="coststory-visual">
+        <div class="cost-turbine">
+          <svg viewBox="0 0 300 470">
+            <line class="tower" x1="150" y1="138" x2="150" y2="430"/>
+            <g class="rot">
+              <circle class="hub" cx="150" cy="116" r="11"/>
+              <path class="blade" d="M150 116 C156 103 161 82 157 23 C152 15 147 15 142 23 C138 82 144 103 150 116 Z"/>
+              <path class="blade" d="M150 116 C156 103 161 82 157 23 C152 15 147 15 142 23 C138 82 144 103 150 116 Z" transform="rotate(120 150 116)"/>
+              <path class="blade" d="M150 116 C156 103 161 82 157 23 C152 15 147 15 142 23 C138 82 144 103 150 116 Z" transform="rotate(240 150 116)"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="connector c1"></div>
+        <div class="connector c2"></div>
+        <div class="connector c3"></div>
+
+        <div class="callout right install build-item" data-build="1">
+          <div class="label">01 · implantação</div>
+          <b>Maior investimento</b>
+          <span>Turbinas, obras, instalação e conexão à rede.</span>
+        </div>
+
+        <div class="callout right fuel build-item" data-build="2">
+          <div class="label">02 · combustível</div>
+          <b>Sem custo de compra</b>
+          <span>O vento é o recurso do parque e não precisa ser comprado.</span>
+        </div>
+
+        <div class="callout right operation build-item" data-build="3">
+          <div class="label">03 · operação</div>
+          <b>Custos recorrentes</b>
+          <span>Manutenção, monitoramento e troca de componentes.</span>
+        </div>
+
+        <div class="lcoe-panel build-item" data-build="4">
+          <div class="lcoe-title">
+            <b>Custo médio de geração eólica em 2025</b>
+            <span>fonte: IRENA, 2026</span>
+          </div>
+          <div class="lcoe-rows">
+            <div class="lcoe-row">
+              <div class="kind">Em terra</div>
+              <div class="lcoe-track"><div class="lcoe-fill" style="--w:42%"></div></div>
+              <div class="lcoe-value">≈ R$ 169<small>US$ 33 por MWh</small></div>
+            </div>
+            <div class="lcoe-row">
+              <div class="kind">No mar</div>
+              <div class="lcoe-track"><div class="lcoe-fill off" style="--w:100%"></div></div>
+              <div class="lcoe-value">≈ R$ 400<small>US$ 78 por MWh</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="count">05 / 09</div>
+  </section>
+
+  <!-- 06 DESAFIOS -->
+  <section class="slide dark" data-note="O ponto central é que não basta gerar energia: é preciso entregar com estabilidade. Falar de transmissão, variação dos ventos, licenciamento e descarte.">
+    <div class="challenge-layout">
+      <div>
+        <div class="kicker">Desafios</div>
+        <h1>O vento varia.<br>A rede precisa<br>acompanhar.</h1>
+        <p class="lead">A geração oscila conforme os ventos e muitos parques ficam longe dos grandes centros consumidores.</p>
+      </div>
+      <div class="network">
+        <svg viewBox="0 0 700 520">
+          <line class="netline" x1="350" y1="260" x2="130" y2="110"/>
+          <line class="netline" x1="350" y1="260" x2="565" y2="105"/>
+          <line class="netline" x1="350" y1="260" x2="180" y2="420"/>
+          <line class="netline" x1="350" y1="260" x2="585" y2="395"/>
+        </svg>
+        <div class="center-pulse build-item" data-build="1">sistema<br>elétrico</div>
+        <div class="net-label a build-item" data-build="2">variabilidade</div>
+        <div class="net-label b build-item" data-build="2">infraestrutura</div>
+        <div class="net-label c build-item" data-build="3">regulação</div>
+        <div class="net-label d build-item" data-build="3">reciclagem</div>
+        <div class="node one build-item" data-build="2"><div class="top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 7c4-3 7 2 12-1M2 12c5-3 9 3 17-1M5 17c4-2 7 2 12 0"/></svg></div><b>Intermitência</b></div><span>Os ventos mudam ao longo do tempo.</span></div>
+        <div class="node two build-item" data-build="2"><div class="top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 21 9 3M19 21 15 3M7 12h10M6 17h12M4 21h16"/></svg></div><b>Transmissão</b></div><span>É preciso conectar parques distantes à rede.</span></div>
+        <div class="node three build-item" data-build="3"><div class="top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3 2.7 20h18.6z"/><path d="M12 8v5M12 17h.01"/></svg></div><b>Licenciamento</b></div><span>Os impactos locais precisam ser avaliados.</span></div>
+        <div class="node four build-item" data-build="3"><div class="top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M6 8h12M9 8V5h6v3M8 8l1 12h6l1-12M10 12v5M14 12v5"/></svg></div><b>Fim da vida útil</b></div><span>Reciclagem e reaproveitamento das pás.</span></div>
+      </div>
+    </div>
+    <div class="count">06 / 09</div>
+  </section>
+
+  <!-- 07 FUTURO -->
+  <section class="slide light" data-note="Trazer uma visão de futuro de forma bem simples: parques em alto-mar, turbinas maiores, uso de IA e possibilidade de integração com hidrogênio verde.">
+    <div class="future-v3">
+      <div class="future-v3-copy">
+        <div class="kicker">Perspectivas futuras</div>
+        <h1>Para onde<br>a eólica<br>está indo?</h1>
+        <p class="lead">A tendência é ampliar a geração, aumentar a eficiência das turbinas e integrar a energia eólica a novas tecnologias.</p>
+        <div class="fact">Entre os principais caminhos estão os parques em alto-mar, turbinas maiores, inteligência artificial e o uso da eletricidade renovável para produzir hidrogênio verde.</div>
+      </div>
+
+      <div class="future-v3-panel">
+        <div class="future-v3-mark">06</div>
+
+        <div class="future-v3-head">
+          <b>Direções mais promissoras</b>
+          <span>próximos anos</span>
+        </div>
+
+        <div class="future-v3-hero build-item" data-build="1">
+          <div class="top">
+            <div class="ico">
+              <svg viewBox="0 0 24 24"><path d="M2 16c3-3 5 3 8 0s5 3 8 0 4 1 4 1M12 4v9M8 9l4-5 4 5"/></svg>
+            </div>
+            <div>
+              <b>Parques em alto-mar</b>
+              <p>Projetos no mar podem aproveitar ventos mais constantes e ampliar a capacidade de geração.</p>
+            </div>
+          </div>
+
+          <div class="future-v3-offshore-note">
+            O ambiente offshore também abre espaço para plataformas flutuantes e novas áreas de instalação.
+          </div>
+
+          <div class="future-v3-wave1">
+            <svg viewBox="0 0 700 58"><path d="M0 30 C75 12 128 47 210 26 S340 12 430 30 S550 47 700 24"/></svg>
+          </div>
+          <div class="future-v3-wave2">
+            <svg viewBox="0 0 700 58"><path d="M0 36 C95 18 145 50 245 32 S390 17 485 34 S598 50 700 29"/></svg>
+          </div>
+
+          <div class="future-v3-turbine">
+            <svg viewBox="0 0 190 220">
+              <line class="tower" x1="95" y1="102" x2="95" y2="198"/>
+              <g class="rot">
+                <circle class="hub" cx="95" cy="88" r="7"/>
+                <path class="blade" d="M95 88 C100 79 103 64 101 22 C97 17 93 17 89 22 C87 64 90 79 95 88 Z"/>
+                <path class="blade" d="M95 88 C100 79 103 64 101 22 C97 17 93 17 89 22 C87 64 90 79 95 88 Z" transform="rotate(120 95 88)"/>
+                <path class="blade" d="M95 88 C100 79 103 64 101 22 C97 17 93 17 89 22 C87 64 90 79 95 88 Z" transform="rotate(240 95 88)"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="future-v3-grid">
+          <div class="future-v3-card build-item" data-build="2">
+            <div class="head">
+              <div class="ico">
+                <svg viewBox="0 0 24 24"><path d="M4 18h16M8 18V9l4-5 4 5v9M12 4v14"/></svg>
+              </div>
+              <b>Turbinas maiores</b>
+            </div>
+            <p>Mais área de captura permite melhor aproveitamento dos ventos e aumento de eficiência.</p>
+          </div>
+
+          <div class="future-v3-card build-item" data-build="3">
+            <div class="head">
+              <div class="ico">
+                <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9zM9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M20 9h3M1 15h3M20 15h3"/></svg>
+              </div>
+              <b>IA e sensores</b>
+            </div>
+            <p>Monitoramento em tempo real e manutenção preditiva ajudam a reduzir falhas e custos.</p>
+          </div>
+
+          <div class="future-v3-card build-item" data-build="4">
+            <div class="head">
+              <div class="ico">
+                <svg viewBox="0 0 24 24"><path d="M12 3C8 8 5 11 5 15a7 7 0 0 0 14 0c0-4-3-7-7-12Z"/><path d="M9 16h6"/></svg>
+              </div>
+              <b>Hidrogênio verde</b>
+            </div>
+            <p>A eletricidade renovável pode ser usada na produção de combustíveis limpos e novos processos industriais.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="count">07 / 09</div>
+  </section>
+
+  <!-- 08 FINAL -->
+  <section class="slide dark" data-note="Fechamento curto. Cada integrante pode dizer uma frase. Deixar a última tela por alguns segundos.">
+    <div class="final">
+      <div class="final-copy">
+        <div class="kicker">Conclusão</div>
+        <h1>Não é só vento.</h1>
+        <h2>É tecnologia, infraestrutura, território e planejamento.</h2>
+        <p class="lead">A energia eólica tem potencial ambiental, social e econômico relevante, mas seus benefícios dependem da forma como cada projeto é planejado e integrado ao sistema elétrico.</p>
+      </div>
+      <div class="final-ring">
+        
+        <div class="final-turbine">
+          <svg viewBox="0 0 300 420">
+            <line x1="150" y1="138" x2="150" y2="380" stroke="#edf3f0" stroke-width="8" stroke-linecap="round"/>
+            <g transform="translate(150 118)">
+              <g>
+                <circle cx="0" cy="0" r="10" fill="#65c797"/>
+                <path d="M0 0 C6 -10 10 -28 6 -78 C2 -84 -2 -84 -6 -78 C-10 -28 -6 -10 0 0 Z" fill="#edf3f0"/>
+                <path d="M0 0 C6 -10 10 -28 6 -78 C2 -84 -2 -84 -6 -78 C-10 -28 -6 -10 0 0 Z" fill="#edf3f0" transform="rotate(120)"/>
+                <path d="M0 0 C6 -10 10 -28 6 -78 C2 -84 -2 -84 -6 -78 C-10 -28 -6 -10 0 0 Z" fill="#edf3f0" transform="rotate(240)"/>
+                <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="7s" repeatCount="indefinite"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+
+      </div>
+      <div class="final-stats">
+        <div class="final-stat build-item" data-build="1"><b>34,7 GW</b><span>potência instalada no Brasil em 2025</span></div>
+        <div class="final-stat build-item" data-build="2"><b>116,5 TWh</b><span>geração eólica brasileira em 2025</span></div>
+        <div class="final-stat build-item" data-build="3"><b>158,7 GW</b><span>nova capacidade eólica adicionada no mundo em 2025</span></div>
+      </div>
+    </div>
+    <div class="count">08 / 09</div>
+  </section>
+  <div class="page-wipe" id="pageWipe"></div>
+
+  <!-- 09 ENCERRAMENTO -->
+  <section class="slide light" data-note="Encerramento breve: retomar a ideia central, agradecer a atenção e abrir para perguntas.">
+    <div class="closing-slide">
+      <div class="closing-copy">
+        <div class="kicker">Encerramento</div>
+        <h1>Obrigado.</h1>
+        <h2>Energia eólica</h2>
+        <p class="lead">A energia eólica se destaca pelo potencial renovável, pela importância econômica e pelos avanços que ainda pode alcançar nos próximos anos.</p>
+      </div>
+
+      <div class="closing-panel">
+        <div class="closing-top">
+          <b>Em síntese</b>
+          <span>fechamento da apresentação</span>
+        </div>
+
+        <div class="closing-summary">
+          <div class="closing-pill">
+            <b>Fonte limpa</b>
+            <p>Não depende da queima de combustíveis durante a geração de eletricidade.</p>
+          </div>
+          <div class="closing-pill">
+            <b>Desafios reais</b>
+            <p>Exige planejamento, infraestrutura, licenciamento e integração ao sistema elétrico.</p>
+          </div>
+          <div class="closing-pill">
+            <b>Futuro promissor</b>
+            <p>Offshore, turbinas maiores, IA e hidrogênio verde ampliam o potencial da fonte.</p>
+          </div>
+        </div>
+
+        <div class="members-card">
+          <div class="title">
+            <b>Integrantes do grupo</b>
+            <span>turma 12</span>
+          </div>
+
+          <div class="members-grid">
+            <div class="member-item"><b>Luisa Chaves Ferrari</b><span>Integrante</span></div>
+            <div class="member-item"><b>Poliana Pautz Moller</b><span>Integrante</span></div>
+            <div class="member-item"><b>Igor Paslauski Pedroso de Oliveira</b><span>Integrante</span></div>
+            <div class="member-item"><b>Ana Laura dos Santos da Luz</b><span>Integrante</span></div>
+            <div class="member-item full"><b>Gabriela Carpwiski Basso</b><span>Integrante</span></div>
+          </div>
+
+          <div class="closing-question">Obrigado pela atenção.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="count">09 / 09</div>
+  </section>
+
+
+  <div class="notes" id="notes"><b>Nota de apresentação</b><span id="noteText"></span></div>
+  <div class="nav"></button></button>
+  </div>
+</div>
+
+<script>
+(() => {
+  const slides=[...document.querySelectorAll('.slide')];
+  const progress=document.getElementById('progress');
+  const notes=document.getElementById('notes');
+  const noteText=document.getElementById('noteText');
+  const buildStatus=document.getElementById('buildStatus');
+  const pageWipe=document.getElementById('pageWipe');
+
+  let current=0,notesOpen=false;
+
+  function buildGroups(slide){
+    return [...new Set(
+      [...slide.querySelectorAll('.build-item')]
+        .map(el=>Number(el.dataset.build))
+        .filter(Number.isFinite)
+    )].sort((a,b)=>a-b);
+  }
+
+  function revealedGroups(slide){
+    return [...new Set(
+      [...slide.querySelectorAll('.build-item.revealed')]
+        .map(el=>Number(el.dataset.build))
+        .filter(Number.isFinite)
+    )].sort((a,b)=>a-b);
+  }
+
+  function resetBuilds(slide){
+    slide.querySelectorAll('.build-item').forEach(el=>el.classList.remove('revealed'));
+    const rail=slide.querySelector('.stats-rail');
+    if(rail) rail.classList.remove('build-started');
+  }
+
+  function revealGroup(slide,group){
+    slide.querySelectorAll(`.build-item[data-build="${group}"]`)
+      .forEach(el=>el.classList.add('revealed'));
+
+    const rail=slide.querySelector('.stats-rail');
+    if(rail) rail.classList.add('build-started');
+  }
+
+  function revealAll(slide){
+    buildGroups(slide).forEach(group=>revealGroup(slide,group));
+  }
+
+  function revealNext(){
+    const slide=slides[current];
+    const groups=buildGroups(slide);
+    if(!groups.length) return false;
+
+    const revealed=revealedGroups(slide);
+    const next=groups.find(g=>!revealed.includes(g));
+
+    if(next===undefined) return false;
+    revealGroup(slide,next);
+    updateBuildStatus();
+    return true;
+  }
+
+  function hideLast(){
+    const slide=slides[current];
+    const revealed=revealedGroups(slide);
+    if(!revealed.length) return false;
+
+    const last=revealed[revealed.length-1];
+    slide.querySelectorAll(`.build-item[data-build="${last}"]`)
+      .forEach(el=>el.classList.remove('revealed'));
+
+    const rail=slide.querySelector('.stats-rail');
+    if(rail && !revealedGroups(slide).length) rail.classList.remove('build-started');
+
+    updateBuildStatus();
+    return true;
+  }
+
+  function updateBuildStatus(){
+    const slide=slides[current];
+    const groups=buildGroups(slide);
+    const revealed=revealedGroups(slide);
+    const remaining=groups.length-revealed.length;
+
+    if(remaining>0){
+      if(buildStatus){
+        buildStatus.textContent=remaining===1 ? '→ mais 1 etapa' : `→ mais ${remaining} etapas`;
+        buildStatus.classList.add('show');
+      }
+    }else{
+      if(buildStatus) buildStatus.classList.remove('show');
+    }
+  }
+
+  function update(){
+    slides.forEach((s,i)=>{
+      s.classList.toggle('active',i===current);
+      s.classList.remove('leave');
+    });
+    progress.style.width=((current+1)/slides.length*100)+'%';
+    noteText.textContent=slides[current].dataset.note||'';
+    updateBuildStatus();
+  }
+
+  function runWipe(){
+    pageWipe.classList.remove('run');
+    void pageWipe.offsetWidth;
+    pageWipe.classList.add('run');
+  }
+
+  function go(n,direction=1){
+    if(n<0||n>=slides.length||n===current)return;
+
+    slides[current].classList.add('leave');
+    runWipe();
+
+    setTimeout(()=>{
+      current=n;
+      resetBuilds(slides[current]);
+
+      // Ao voltar, mostra o slide anterior completo.
+      if(direction<0) revealAll(slides[current]);
+
+      update();
+    },180);
+  }
+
+  function nextAction(){
+    if(revealNext()) return;
+    go(current+1,1);
+  }
+
+  function prevAction(){
+    if(hideLast()) return;
+    go(current-1,-1);
+  }
+
+  async function fullscreen(){
+    try{
+      if(!document.fullscreenElement)
+        await document.documentElement.requestFullscreen();
+      else
+        await document.exitFullscreen();
+    }catch(e){}
+  }
+
+  const nextBtn=document.getElementById('next'); if(nextBtn) nextBtn.onclick=nextAction;
+  const prevBtn=document.getElementById('prev'); if(prevBtn) prevBtn.onclick=prevAction;
+  const fsBtn=document.getElementById('fs'); if(fsBtn) fsBtn.onclick=fullscreen;
+
+
+  document.addEventListener('click', e=>{
+    if(e.button !== 0) return;
+    if(e.target.closest('a,button,input,textarea,select')) return;
+    nextAction();
+  });
+
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' '].includes(e.key)){
+      e.preventDefault();
+      nextAction();
+    }
+    if(['ArrowLeft','PageUp'].includes(e.key)){
+      e.preventDefault();
+      prevAction();
+    }
+    if(e.key.toLowerCase()==='f')fullscreen();
+    if(e.key.toLowerCase()==='n'){
+      notesOpen=!notesOpen;
+      notes.classList.toggle('show',notesOpen);
+      noteText.textContent=slides[current].dataset.note||'';
+    }
+  });
+
+  // Começa com os slides de build no estado mínimo.
+  slides.forEach(resetBuilds);
+  update();
+})();
+</script>
+</body>
+</html>
