@@ -3158,12 +3158,46 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
   }
 }
 
+.live-pill{
+  position:absolute;
+  left:50%;
+  bottom:2.5vh;
+  transform:translateX(-50%);
+  z-index:90;
+  display:flex;
+  align-items:center;
+  gap:.45rem;
+  padding:.38rem .78rem;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(7,16,18,.78);
+  color:#9aaca6;
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .3s ease;
+}
+.live-pill.show{opacity:1}
+.live-pill .dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#6f817a;
+}
+.live-pill.online .dot{
+  background:var(--green);
+  box-shadow:0 0 0 4px rgba(101,199,151,.18);
+}
+.live-pill.offline .dot{background:#c47b6a}
+
 </style>
 </head>
 <body>
 <div class="deck">
   <div class="progress" id="progress"></div>
-  </button>
+  <div class="live-pill" id="livePill"><i class="dot"></i><span id="liveText">sincronizando</span></div>
 
   <!-- 01 HERO -->
   <section class="slide dark active" data-note="Abrir com uma pergunta curta: como o vento consegue virar eletricidade? Apresentar o tema e dizer que o vídeo vai abordar funcionamento, impactos, custos, desafios e futuro.">
@@ -3697,8 +3731,23 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
   const noteText=document.getElementById('noteText');
   const buildStatus=document.getElementById('buildStatus');
   const pageWipe=document.getElementById('pageWipe');
+  const livePill=document.getElementById('livePill');
+  const liveText=document.getElementById('liveText');
 
-  let current=0,notesOpen=false;
+  const params=new URLSearchParams(location.search);
+  const solo=params.has('solo');
+  const room=(params.get('sala')||'principal').replace(/[^a-zA-Z0-9_-]/g,'').slice(0,40)||'principal';
+  const CLIENT_ID='eolica-'+Math.random().toString(16).slice(2,10)+Date.now().toString(16).slice(-4);
+  const TOPIC=`unijui/energia-eolica/apresentacao/v31/${room}/estado`;
+  const BROKERS=[
+    'wss://broker.emqx.io:8084/mqtt',
+    'wss://broker.hivemq.com:8884/mqtt'
+  ];
+
+  let current=0,notesOpen=false,moveGen=0;
+  let mqttClient=null;
+  let liveReady=solo;
+  let pendingState=null;
 
   function buildGroups(slide){
     return [...new Set(
@@ -3716,6 +3765,10 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
     )].sort((a,b)=>a-b);
   }
 
+  function revealedCount(slide=slides[current]){
+    return revealedGroups(slide).length;
+  }
+
   function resetBuilds(slide){
     slide.querySelectorAll('.build-item').forEach(el=>el.classList.remove('revealed'));
     const rail=slide.querySelector('.stats-rail');
@@ -3730,8 +3783,9 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
     if(rail) rail.classList.add('build-started');
   }
 
-  function revealAll(slide){
-    buildGroups(slide).forEach(group=>revealGroup(slide,group));
+  function setBuilds(slide,count){
+    resetBuilds(slide);
+    buildGroups(slide).slice(0,Math.max(0,count|0)).forEach(group=>revealGroup(slide,group));
   }
 
   function revealNext(){
@@ -3796,31 +3850,85 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
     pageWipe.classList.add('run');
   }
 
-  function go(n,direction=1){
-    if(n<0||n>=slides.length||n===current)return;
+  function sameState(slide,builds){
+    return slide===current && builds===revealedCount();
+  }
 
-    slides[current].classList.add('leave');
-    runWipe();
+  function setDeck(n,builds,{animate=true}={}){
+    n=Math.max(0,Math.min(slides.length-1,n|0));
+    builds=Math.max(0,builds|0);
+    if(sameState(n,builds)) return;
 
-    setTimeout(()=>{
-      current=n;
-      resetBuilds(slides[current]);
-
-      // Ao voltar, mostra o slide anterior completo.
-      if(direction<0) revealAll(slides[current]);
-
+    if(n===current){
+      setBuilds(slides[current],builds);
       update();
-    },180);
+      return;
+    }
+
+    const gen=++moveGen;
+    if(animate){
+      slides[current].classList.add('leave');
+      runWipe();
+      setTimeout(()=>{
+        if(gen!==moveGen) return;
+        current=n;
+        setBuilds(slides[current],builds);
+        update();
+      },180);
+    }else{
+      current=n;
+      setBuilds(slides[current],builds);
+      update();
+    }
+  }
+
+  function setLive(status,label){
+    if(!livePill||solo) return;
+    livePill.classList.add('show');
+    livePill.classList.toggle('online',status==='online');
+    livePill.classList.toggle('offline',status==='offline');
+    if(liveText) liveText.textContent=label;
+  }
+
+  function broadcast(slide=current,builds=revealedCount()){
+    pendingState={slide,builds,from:CLIENT_ID,ts:Date.now()};
+    if(!mqttClient||!mqttClient.connected) return;
+    mqttClient.publish(TOPIC,JSON.stringify(pendingState),{qos:1,retain:true});
+  }
+
+  function applyRemote(state){
+    if(!state||state.from===CLIENT_ID) return;
+    if(state.ts && Date.now()-Number(state.ts)>6*60*60*1000) return;
+    const slide=Number(state.slide);
+    const builds=Number(state.builds);
+    if(!Number.isFinite(slide)||!Number.isFinite(builds)) return;
+    liveReady=true;
+    setDeck(slide,builds,{animate:slide!==current});
   }
 
   function nextAction(){
-    if(revealNext()) return;
-    go(current+1,1);
+    liveReady=true;
+    if(revealNext()){
+      broadcast();
+      return;
+    }
+    if(current>=slides.length-1) return;
+    const n=current+1;
+    setDeck(n,0);
+    broadcast(n,0);
   }
 
   function prevAction(){
-    if(hideLast()) return;
-    go(current-1,-1);
+    liveReady=true;
+    if(hideLast()){
+      broadcast();
+      return;
+    }
+    if(current<=0) return;
+    const n=current-1;
+    const all=buildGroups(slides[n]).length;
+    setDeck(n,all);
+    broadcast(n,all);
   }
 
   async function fullscreen(){
@@ -3835,7 +3943,6 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
   const nextBtn=document.getElementById('next'); if(nextBtn) nextBtn.onclick=nextAction;
   const prevBtn=document.getElementById('prev'); if(prevBtn) prevBtn.onclick=prevAction;
   const fsBtn=document.getElementById('fs'); if(fsBtn) fsBtn.onclick=fullscreen;
-
 
   document.addEventListener('click', e=>{
     if(e.button !== 0) return;
@@ -3860,9 +3967,81 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
     }
   });
 
-  // Começa com os slides de build no estado mínimo.
+  function loadScript(src){
+    return new Promise((resolve,reject)=>{
+      const s=document.createElement('script');
+      s.src=src;
+      s.onload=()=>resolve();
+      s.onerror=()=>reject(new Error('fail '+src));
+      document.head.appendChild(s);
+    });
+  }
+
+  function connectBroker(url){
+    return mqtt.connect(url,{
+      clientId:CLIENT_ID,
+      clean:true,
+      connectTimeout:5000,
+      reconnectPeriod:4000,
+      keepalive:30
+    });
+  }
+
+  async function startLive(){
+    if(solo) return;
+    setLive('connecting','sincronizando');
+    try{
+      await loadScript('https://cdn.jsdelivr.net/npm/mqtt@4.3.7/dist/mqtt.min.js');
+    }catch(e){
+      try{
+        await loadScript('https://unpkg.com/mqtt@4.3.7/dist/mqtt.min.js');
+      }catch(err){
+        setLive('offline','local');
+        return;
+      }
+    }
+    if(typeof mqtt==='undefined'){
+      setLive('offline','local');
+      return;
+    }
+
+    let brokerIndex=0;
+    let connectedOnce=false;
+    const bindClient=()=>{
+      mqttClient.on('connect',()=>{
+        connectedOnce=true;
+        setLive('online','ao vivo');
+        mqttClient.subscribe(TOPIC,{qos:1});
+        setTimeout(()=>{ liveReady=true; },1400);
+      });
+      mqttClient.on('message',(_topic,payload)=>{
+        let state=null;
+        try{ state=JSON.parse(payload.toString()); }catch(e){ return; }
+        applyRemote(state);
+      });
+      mqttClient.on('reconnect',()=>setLive('connecting','reconectando'));
+      mqttClient.on('offline',()=>{
+        if(connectedOnce) setLive('offline','local');
+      });
+      mqttClient.on('error',()=>{});
+    };
+    mqttClient=connectBroker(BROKERS[0]);
+    bindClient();
+    setTimeout(()=>{
+      if(connectedOnce||brokerIndex>=BROKERS.length-1){
+        if(!connectedOnce) setLive('offline','local');
+        return;
+      }
+      brokerIndex=1;
+      try{ mqttClient.end(true); }catch(e){}
+      mqttClient=connectBroker(BROKERS[1]);
+      bindClient();
+    },6000);
+  }
+
   slides.forEach(resetBuilds);
   update();
+  startLive();
 })();
 </script>
 </body>
