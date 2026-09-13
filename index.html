@@ -2926,7 +2926,7 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
   display:none !important;
 }
 
-/* cursor discreto; clique em qualquer lugar avança a apresentação */
+/* cursor discreto; lado esquerdo volta, lado direito avança */
 .deck,
 .slide{
   cursor:default;
@@ -3667,11 +3667,11 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
           </div>
 
           <div class="members-grid">
-            <div class="member-item"><b>Luisa Chaves Ferrari</b><span>Integrante</span></div>
-            <div class="member-item"><b>Poliana Pautz Moller</b><span>Integrante</span></div>
-            <div class="member-item"><b>Igor Paslauski Pedroso de Oliveira</b><span>Integrante</span></div>
-            <div class="member-item"><b>Ana Laura dos Santos da Luz</b><span>Integrante</span></div>
-            <div class="member-item full"><b>Gabriela Carpwiski Basso</b><span>Integrante</span></div>
+            <div class="member-item"><b>Luisa Chaves Ferrari</b><span>Engenharia de Software</span></div>
+            <div class="member-item"><b>Poliana Pautz Moller</b><span>Ciência da Computação</span></div>
+            <div class="member-item"><b>Igor Paslauski Pedroso de Oliveira</b><span>Ciência da Computação</span></div>
+            <div class="member-item"><b>Ana Laura dos Santos da Luz</b><span>Arquitetura</span></div>
+            <div class="member-item full"><b>Gabriela Carpwiski Basso</b><span>Arquitetura</span></div>
           </div>
 
           <div class="closing-question">Obrigado pela atenção.</div>
@@ -3684,8 +3684,6 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
 
 
   <div class="notes" id="notes"><b>Nota de apresentação</b><span id="noteText"></span></div>
-  <div class="nav"></button></button>
-  </div>
 </div>
 
 <script>
@@ -3895,13 +3893,15 @@ h2{margin:1rem 0 0;font-size:clamp(21px,2.15vw,36px);font-weight:500;line-height
     }catch(e){}
   }
 
-  const nextBtn=document.getElementById('next'); if(nextBtn) nextBtn.onclick=nextAction;
-  const prevBtn=document.getElementById('prev'); if(prevBtn) prevBtn.onclick=prevAction;
   const fsBtn=document.getElementById('fs'); if(fsBtn) fsBtn.onclick=fullscreen;
 
   document.addEventListener('click', e=>{
     if(e.button !== 0) return;
     if(e.target.closest('a,button,input,textarea,select')) return;
+    if(e.clientX < window.innerWidth*0.4){
+      prevAction();
+      return;
+    }
     nextAction();
   });
 
